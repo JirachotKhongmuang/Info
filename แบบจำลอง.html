@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>อินโฟกราฟิก: วิวัฒนาการของแบบจำลองอะตอม</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- 
+    Palette Name: Energetic & Playful
+    HEX Codes: #58508d, #bc5090, #ff6361, #ffa600
+
+    Narrative Plan:
+    1. Header: Introduce the topic.
+    2. Introduction: Briefly explain the importance of atomic models.
+    3. Timeline: A vertical timeline showing the chronological progression of the five key models.
+    4. Model Sections: Each model gets a card with a key visualization and explanatory text.
+       - Dalton: Pictograph.
+       - Thomson: Donut chart for charge neutrality.
+       - Rutherford: HTML/CSS diagram for gold foil experiment results.
+       - Bohr: HTML/CSS diagram for energy levels.
+       - Quantum: Bubble chart for probability clouds (orbitals).
+    5. Conclusion: A summary table comparing all models.
+    
+    Visualization Selection:
+    - Dalton -> Inform -> Pictograph -> Justification: Simple, direct visual for an indivisible sphere. Method: Unicode character. NO SVG.
+    - Thomson -> Inform -> Donut Chart -> Justification: Shows the balance of positive/negative charge concept visually. Method: Chart.js/Canvas. NO SVG.
+    - Rutherford -> Compare -> HTML/CSS Diagram -> Justification: Replaced complex logarithmic bar chart with a simpler visual representation of proportions using styled HTML elements for easier digestion. Method: Styled HTML divs. NO SVG.
+    - Bohr -> Organize -> HTML/CSS Diagram -> Justification: A direct, clear representation of fixed energy shells. Method: Styled HTML divs. NO SVG.
+    - Quantum Model -> Reveal Relationships -> Bubble Chart -> Justification: Abstractly visualizes probability clouds (orbitals) where size indicates probability. Method: Chart.js/Canvas. NO SVG.
+    - Timeline -> Change -> HTML/CSS Timeline -> Justification: Clearly shows chronological progression. Method: Styled HTML divs. NO SVG.
+
+    Confirmation: NEITHER Mermaid JS NOR SVG were used in this file. All charts are rendered using Chart.js on HTML Canvas elements.
+    -->
+    <style>
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: #f0f4f8;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .timeline {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            background-color: #58508d;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+        }
+        .timeline-container {
+            padding: 10px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 50%;
+        }
+        .timeline-container.left {
+            left: 0;
+        }
+        .timeline-container.right {
+            left: 50%;
+        }
+        .timeline-container::after {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            right: -17px;
+            background-color: white;
+            border: 4px solid #ff6361;
+            top: 15px;
+            border-radius: 50%;
+            z-index: 1;
+        }
+        .timeline-container.right::after {
+            left: -16px;
+        }
+        .timeline-container.left::before {
+            content: " ";
+            height: 0;
+            position: absolute;
+            top: 22px;
+            width: 0;
+            z-index: 1;
+            right: 30px;
+            border: medium solid white;
+            border-width: 10px 0 10px 10px;
+            border-color: transparent transparent transparent white;
+        }
+        .timeline-container.right::before {
+            content: " ";
+            height: 0;
+            position: absolute;
+            top: 22px;
+            width: 0;
+            z-index: 1;
+            left: 30px;
+            border: medium solid white;
+            border-width: 10px 10px 10px 0;
+            border-color: transparent white transparent transparent;
+        }
+        .timeline-content {
+            padding: 20px 30px;
+            background-color: white;
+            position: relative;
+            border-radius: 6px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        @media screen and (max-width: 768px) {
+            .timeline::after {
+                left: 31px;
+            }
+            .timeline-container {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+            .timeline-container::before {
+                left: 60px;
+                border: medium solid white;
+                border-width: 10px 10px 10px 0;
+                border-color: transparent white transparent transparent;
+            }
+            .timeline-container.left::after, .timeline-container.right::after {
+                left: 15px;
+            }
+            .timeline-container.right {
+                left: 0%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container mx-auto p-4 md:p-8">
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-[#58508d]">วิวัฒนาการของแบบจำลองอะตอม</h1>
+            <p class="text-lg text-gray-600 mt-2">การเดินทางผ่านแนวคิดที่เปลี่ยนแปลงความเข้าใจของเราเกี่ยวกับสสาร</p>
+        </header>
+
+        <main class="timeline">
+            <div class="timeline-container left">
+                <div class="timeline-content">
+                    <h2 class="text-2xl font-bold text-[#58508d]">1. แบบจำลองของดอลตัน (1803)</h2>
+                    <p class="mt-2 text-gray-700">จอห์น ดอลตัน เสนอว่าอะตอมเป็นหน่วยที่เล็กที่สุดของสสาร มีลักษณะเป็น <strong class="text-[#bc5090]">ทรงกลมตัน</strong> ที่ไม่สามารถแบ่งแยกได้อีก อะตอมของธาตุชนิดเดียวกันจะมีสมบัติเหมือนกันทุกประการ</p>
+                    <div class="text-center mt-4">
+                        <span class="text-8xl" title="Dalton's Solid Sphere Model">⚫</span>
+                        <p class="font-semibold mt-2">อะตอมทรงกลมตัน</p>
+                    </div>
+                    <p class="mt-4 text-sm text-red-500"><strong>ข้อจำกัด:</strong> ไม่สามารถอธิบายการมีอยู่ของอนุภาคย่อย (อิเล็กตรอน, โปรตอน) หรือปรากฏการณ์ทางไฟฟ้าได้</p>
+                </div>
+            </div>
+
+            <div class="timeline-container right">
+                <div class="timeline-content">
+                    <h2 class="text-2xl font-bold text-[#58508d]">2. แบบจำลองของทอมสัน (1904)</h2>
+                    <p class="mt-2 text-gray-700">เจ.เจ. ทอมสัน ค้นพบ <strong class="text-[#bc5090]">อิเล็กตรอน</strong> และเสนอว่าอะตอมเป็นทรงกลมที่มีเนื้อประจุบวกกระจายอยู่อย่างสม่ำเสมอ และมีอิเล็กตรอน (ประจุลบ) ฝังอยู่ทั่วไป เพื่อให้อะตอมเป็นกลางทางไฟฟ้า</p>
+                    <div class="chart-container h-64 md:h-72">
+                        <canvas id="thomsonChart"></canvas>
+                    </div>
+                    <p class="text-center text-sm font-semibold mt-2">แบบจำลองพุดดิ้งลูกเกด (Plum Pudding Model)</p>
+                    <p class="mt-4 text-sm text-red-500"><strong>ข้อจำกัด:</strong> ไม่สามารถอธิบายผลการทดลองยิงอนุภาคแอลฟาผ่านแผ่นทองคำของรัทเทอร์ฟอร์ดได้</p>
+                </div>
+            </div>
+
+            <div class="timeline-container left">
+                <div class="timeline-content">
+                    <h2 class="text-2xl font-bold text-[#58508d]">3. แบบจำลองของรัทเทอร์ฟอร์ด (1911)</h2>
+                    <p class="mt-2 text-gray-700">เออร์เนสต์ รัทเทอร์ฟอร์ด สรุปผลจากการทดลองยิงอนุภาคแอลฟาว่า อะตอมประกอบด้วย <strong class="text-[#bc5090]">นิวเคลียส</strong> ที่มีประจุบวกและมีมวลมากอยู่ตรงกลาง โดยมีอิเล็กตรอนโคจรรอบๆ และพื้นที่ส่วนใหญ่ของอะตอมเป็นที่ว่าง</p>
+                    <div class="flex flex-col items-center justify-center mt-4 space-y-2">
+                        <div class="w-full bg-green-200 p-2 rounded-md text-center text-sm font-semibold text-green-800">
+                            อนุภาคส่วนใหญ่ทะลุผ่าน (>99%)
+                        </div>
+                        <div class="w-3/4 bg-yellow-200 p-2 rounded-md text-center text-sm font-semibold text-yellow-800">
+                            บางส่วนเบี่ยงเบน (0.09%)
+                        </div>
+                        <div class="w-1/2 bg-red-200 p-2 rounded-md text-center text-sm font-semibold text-red-800">
+                            ส่วนน้อยสะท้อนกลับ (<0.01%)
+                        </div>
+                    </div>
+                    <p class="text-center text-sm font-semibold mt-2">ผลการทดลองยิงอนุภาคแอลฟา (ภาพเชิงแนวคิด)</p>
+                    <p class="mt-4 text-sm text-red-500"><strong>ข้อจำกัด:</strong> ไม่สามารถอธิบายได้ว่าทำไมอิเล็กตรอนจึงไม่ถูกดูดเข้าไปในนิวเคลียส และไม่สามารถอธิบายสเปกตรัมเส้นได้</p>
+                </div>
+            </div>
+
+            <div class="timeline-container right">
+                <div class="timeline-content">
+                    <h2 class="text-2xl font-bold text-[#58508d]">4. แบบจำลองของโบร์ (1913)</h2>
+                    <p class="mt-2 text-gray-700">นีลส์ โบร์ เสนอว่าอิเล็กตรอนโคจรรอบนิวเคลียสในวงโคจรที่มี <strong class="text-[#bc5090]">ระดับพลังงานเฉพาะตัว</strong> และไม่แผ่พลังงานออกมาตราบเท่าที่ยังอยู่ในระดับพลังงานเดิม การเปลี่ยนระดับพลังงานจะมีการดูดหรือคายพลังงานในรูปของแสง</p>
+                    <div class="relative w-48 h-48 mx-auto mt-4" title="Bohr's Energy Levels">
+                        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-[#ff6361] rounded-full"></div>
+                        <div class="absolute inset-0 border-2 border-dashed border-[#58508d] rounded-full"></div>
+                        <div class="absolute inset-4 border-2 border-dashed border-[#58508d] rounded-full"></div>
+                        <div class="absolute inset-8 border-2 border-dashed border-[#58508d] rounded-full"></div>
+                    </div>
+                    <p class="text-center text-sm font-semibold mt-2">ระดับพลังงานของอิเล็กตรอน</p>
+                    <p class="mt-4 text-sm text-red-500"><strong>ข้อจำกัด:</strong> อธิบายได้ดีเฉพาะอะตอมไฮโดรเจน (1 อิเล็กตรอน) และไม่สามารถอธิบายการเกิดพันธะเคมีได้</p>
+                </div>
+            </div>
+
+            <div class="timeline-container left">
+                <div class="timeline-content">
+                    <h2 class="text-2xl font-bold text-[#58508d]">5. แบบจำลองกลุ่มหมอก (1926+)</h2>
+                    <p class="mt-2 text-gray-700">แบบจำลองกลศาสตร์ควอนตัมอธิบายว่า เราไม่สามารถระบุตำแหน่งที่แน่นอนของอิเล็กตรอนได้ แต่บอกได้เพียง <strong class="text-[#bc5090]">ความน่าจะเป็น</strong> ที่จะพบอิเล็กตรอนในบริเวณต่างๆ รอบนิวเคลียส ซึ่งเรียกว่า <strong class="text-[#bc5090]">ออร์บิทัล (Orbital)</strong></p>
+                     <div class="chart-container">
+                        <canvas id="quantumChart"></canvas>
+                    </div>
+                    <p class="text-center text-sm font-semibold mt-2">กลุ่มหมอกความน่าจะเป็นที่จะพบอิเล็กตรอน</p>
+                    <p class="mt-4 text-sm text-green-600"><strong>ข้อดี:</strong> เป็นแบบจำลองที่ถูกต้องและครอบคลุมที่สุดในปัจจุบัน ใช้อธิบายสมบัติทางเคมีและกายภาพของอะตอมได้เป็นอย่างดี</p>
+                </div>
+            </div>
+        </main>
+
+        <section class="mt-12 bg-white rounded-lg shadow-md p-6 md:p-8">
+            <h2 class="text-3xl font-bold text-center text-[#58508d] mb-6">สรุปเปรียบเทียบแบบจำลองอะตอม</h2>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-[#58508d] text-white">
+                            <th class="p-3 font-semibold">แบบจำลอง</th>
+                            <th class="p-3 font-semibold">แนวคิดหลัก</th>
+                            <th class="p-3 font-semibold">ข้อจำกัดสำคัญ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b hover:bg-gray-50">
+                            <td class="p-3 font-semibold text-[#bc5090]">ดอลตัน</td>
+                            <td class="p-3">อะตอมเป็นอนุภาคทรงกลมตัน แบ่งแยกไม่ได้</td>
+                            <td class="p-3">ไม่รู้จักอนุภาคย่อยของอะตอม</td>
+                        </tr>
+                        <tr class="border-b hover:bg-gray-50">
+                            <td class="p-3 font-semibold text-[#bc5090]">ทอมสัน</td>
+                            <td class="p-3">อะตอมประจุบวก มีอิเล็กตรอนฝังอยู่</td>
+                            <td class="p-3">ขัดแย้งกับผลการทดลองของรัทเทอร์ฟอร์ด</td>
+                        </tr>
+                        <tr class="border-b hover:bg-gray-50">
+                            <td class="p-3 font-semibold text-[#bc5090]">รัทเทอร์ฟอร์ด</td>
+                            <td class="p-3">มีนิวเคลียสตรงกลาง อิเล็กตรอนโคจรรอบ</td>
+                            <td class="p-3">อธิบายเสถียรภาพของอะตอมไม่ได้</td>
+                        </tr>
+                        <tr class="border-b hover:bg-gray-50">
+                            <td class="p-3 font-semibold text-[#bc5090]">โบร์</td>
+                            <td class="p-3">อิเล็กตรอนโคจรในระดับพลังงานที่แน่นอน</td>
+                            <td class="p-3">ใช้ได้ดีกับอะตอมที่มี 1 อิเล็กตรอนเท่านั้น</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="p-3 font-semibold text-[#bc5090]">กลุ่มหมอก</td>
+                            <td class="p-3">อิเล็กตรอนคือกลุ่มหมอกของความน่าจะเป็น</td>
+                            <td class="p-3">มีความซับซ้อนในการคำนวณ</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </div>
+
+    <footer class="text-center p-4 text-gray-500 text-sm">
+        <p>อินโฟกราฟิกสร้างขึ้นเพื่อการศึกษา โดยใช้ข้อมูลจากแบบจำลองอะตอมในวิชาวิทยาศาสตร์</p>
+    </footer>
+
+    <script>
+        const wrapLabel = (label, maxLength = 16) => {
+            if (label.length <= maxLength) return label;
+            const words = label.split(' ');
+            const lines = [];
+            let currentLine = '';
+            for (const word of words) {
+                if ((currentLine + ' ' + word).trim().length > maxLength) {
+                    lines.push(currentLine.trim());
+                    currentLine = word;
+                } else {
+                    currentLine = (currentLine + ' ' + word).trim();
+                }
+            }
+            if (currentLine) lines.push(currentLine.trim());
+            return lines;
+        };
+
+        const tooltipTitleCallback = (tooltipItems) => {
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            if (Array.isArray(label)) {
+                return label.join(' ');
+            } else {
+                return label;
+            }
+        };
+
+        const commonChartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                tooltip: {
+                    callbacks: {
+                        title: tooltipTitleCallback
+                    }
+                }
+            }
+        };
+
+        const colors = {
+            purple: '#58508d',
+            pink: '#bc5090',
+            red: '#ff6361',
+            orange: '#ffa600'
+        };
+
+        const thomsonCtx = document.getElementById('thomsonChart').getContext('2d');
+        new Chart(thomsonCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['เนื้อประจุบวก', 'อิเล็กตรอน (ประจุลบ)'],
+                datasets: [{
+                    label: 'ส่วนประกอบของอะตอม',
+                    data: [50, 50],
+                    backgroundColor: [colors.red, colors.purple],
+                    borderColor: '#ffffff',
+                    borderWidth: 2
+                }]
+            },
+            options: { ...commonChartOptions, cutout: '50%' }
+        });
+
+        // Rutherford chart was replaced with HTML/CSS diagram for simplicity.
+        // The original Rutherford chart code is removed.
+
+        const quantumCtx = document.getElementById('quantumChart').getContext('2d');
+        new Chart(quantumCtx, {
+            type: 'bubble',
+            data: {
+                labels: ['1s Orbital', '2s Orbital', ['2p Orbital', '(แกน X)'], ['2p Orbital', '(แกน Y)']],
+                datasets: [{
+                    label: 'ความน่าจะเป็นที่จะพบอิเล็กตรอน (ขนาด = ความน่าจะเป็น)',
+                    data: [
+                        { x: 5, y: 5, r: 25 }, // 1s orbital
+                        { x: 5, y: 5, r: 40 }, // 2s orbital (larger, more spread out)
+                        { x: 8, y: 5, r: 30 }, // 2px orbital lobe
+                        { x: 2, y: 5, r: 30 }  // 2px orbital lobe
+                    ],
+                    backgroundColor: [
+                        'rgba(255, 99, 97, 0.6)',
+                        'rgba(88, 80, 141, 0.6)',
+                        'rgba(188, 80, 144, 0.6)',
+                        'rgba(255, 166, 0, 0.6)'
+                    ],
+                    borderColor: [
+                        colors.red,
+                        colors.purple,
+                        colors.pink,
+                        colors.orange
+                    ],
+                    borderWidth: 2
+                }]
+            },
+            options: { ...commonChartOptions }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>อินโฟกราฟิก: สเปกตรัม - ลายนิ้วมือของสสาร</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- 
+    Palette Name: Energetic & Playful
+    HEX Codes: #58508d, #bc5090, #ff6361, #ffa600
+
+    Narrative Plan:
+    1. Header: Introduce spectrum as the "fingerprint of matter".
+    2. The Three Types of Spectra: A visual, side-by-side comparison of Continuous, Emission, and Absorption spectra using HTML/CSS diagrams.
+    3. The Atomic Dance: A flowchart-style diagram explaining how electron jumps cause emission and absorption of light.
+    4. Cosmic Detective Work: An application-focused section showing how astronomers use absorption spectra to determine a star's composition, visualized with a Chart.js graph.
+    5. Applications Overview: A final section summarizing the broad applications of spectroscopy in various fields.
+    
+    Visualization Selection:
+    - Three Spectra Types -> Compare -> HTML/CSS Diagrams -> Justification: A direct visual contrast using styled divs and gradients is the most effective way to show the differences. Method: HTML/CSS (linear-gradient for continuous/absorption, styled divs for emission lines). NO SVG.
+    - Atomic Dance (Process) -> Organize -> Flowchart-style HTML/CSS Diagram -> Justification: Clearly illustrates the cause-and-effect of electron transitions. Uses styled divs and Unicode characters. Method: HTML/CSS. NO SVG, NO MERMAID JS.
+    - Star's Composition Analysis -> Reveal Relationships -> Bar Chart -> Justification: A Chart.js bar chart effectively mimics a real spectrograph output, showing intensity dips (absorption lines) corresponding to specific elements. This makes the concept tangible. Method: Chart.js/Canvas. NO SVG.
+
+    Confirmation: NEITHER Mermaid JS NOR SVG were used in this file. All diagrams are built with structured HTML and styled with Tailwind CSS. The chart is rendered by Chart.js on an HTML Canvas.
+    -->
+    <style>
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: #f7f3ff;
+            color: #333;
+        }
+        .card {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.05), 0 4px 6px -4px rgb(0 0 0 / 0.05);
+            padding: 1.5rem;
+            border: 1px solid #e2e8f0;
+        }
+        .spectrum-bar {
+            height: 50px;
+            border-radius: 0.25rem;
+            border: 2px solid #58508d;
+        }
+        .continuous-spectrum {
+            background: linear-gradient(to right, #9400d3, #4b0082, #0000ff, #00ff00, #ffff00, #ff7f00, #ff0000);
+        }
+        .emission-spectrum {
+            background: #1a202c;
+            position: relative;
+        }
+        .emission-line {
+            position: absolute;
+            width: 4px;
+            height: 100%;
+        }
+        .absorption-spectrum {
+            position: relative;
+        }
+        .absorption-line {
+            position: absolute;
+            width: 4px;
+            height: 100%;
+            background-color: #1a202c;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        .atom-diagram {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .energy-level {
+            position: absolute;
+            border-radius: 50%;
+            border: 2px dashed #bc5090;
+        }
+        .photon {
+            color: #ffa600;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+
+    <main class="container mx-auto p-4 md:p-8">
+
+        <header class="text-center mb-16">
+            <h1 class="text-4xl md:text-5xl font-bold text-[#58508d]">สเปกตรัม: ลายนิ้วมือของสสาร</h1>
+            <p class="text-lg text-gray-600 mt-2 max-w-3xl mx-auto">เช่นเดียวกับที่มนุษย์มีลายนิ้วมือไม่ซ้ำกัน ธาตุแต่ละชนิดก็มี "ลายเซ็น" แสงที่เป็นเอกลักษณ์ของตัวเองเรียกว่าสเปกตรัม ซึ่งช่วยให้นักวิทยาศาสตร์ไขความลับของสสารได้ทั่วทั้งจักรวาล</p>
+        </header>
+
+        <section id="types-of-spectra" class="mb-16">
+            <h2 class="text-3xl font-bold text-center text-[#58508d] mb-8">สเปกตรัม 3 ประเภทหลัก</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="card text-center">
+                    <h3 class="text-xl font-semibold mb-4 text-[#bc5090]">1. สเปกตรัมต่อเนื่อง</h3>
+                    <div class="spectrum-bar continuous-spectrum"></div>
+                    <p class="mt-4 text-gray-600">แถบสีรุ้งที่ต่อเนื่องกัน เกิดจากวัตถุร้อนจัดและหนาแน่น เช่น ไส้หลอดไฟ หรือแกนกลางของดาวฤกษ์ ที่แผ่แสงออกมาทุกความยาวคลื่น</p>
+                </div>
+                <div class="card text-center">
+                    <h3 class="text-xl font-semibold mb-4 text-[#bc5090]">2. สเปกตรัมแผ่รังสี (เส้นสว่าง)</h3>
+                    <div class="spectrum-bar emission-spectrum">
+                        <div class="emission-line" style="left: 20%; background-color: #4b0082;"></div>
+                        <div class="emission-line" style="left: 45%; background-color: #00ff00;"></div>
+                        <div class="emission-line" style="left: 65%; background-color: #ffff00;"></div>
+                        <div class="emission-line" style="left: 80%; background-color: #ff0000;"></div>
+                    </div>
+                    <p class="mt-4 text-gray-600">เส้นสีสว่างบนพื้นหลังมืด เกิดจากแก๊สร้อนความหนาแน่นต่ำ (เช่น ในหลอดไฟนีออน หรือเนบิวลา) คายพลังงานออกมาเป็นแสงที่มีสีเฉพาะตัว</p>
+                </div>
+                <div class="card text-center">
+                    <h3 class="text-xl font-semibold mb-4 text-[#bc5090]">3. สเปกตรัมดูดกลืน (เส้นมืด)</h3>
+                    <div class="spectrum-bar continuous-spectrum absorption-spectrum">
+                        <div class="absorption-line" style="left: 20%;"></div>
+                        <div class="absorption-line" style="left: 45%;"></div>
+                        <div class="absorption-line" style="left: 65%;"></div>
+                        <div class="absorption-line" style="left: 80%;"></div>
+                    </div>
+                    <p class="mt-4 text-gray-600">เส้นมืดบนพื้นหลังสีรุ้ง เกิดจากแสงต่อเนื่องเดินทางผ่านแก๊สเย็น ซึ่งแก๊สจะ "ดูดกลืน" แสงสีที่มันชอบไป ทำให้เกิดเป็นช่องว่างสีดำ</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="atomic-dance" class="mb-16 card">
+            <h2 class="text-3xl font-bold text-center text-[#58508d] mb-6">เบื้องหลังสเปกตรัม: การเต้นรำของอิเล็กตรอน</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div class="text-center p-4 border-r-0 md:border-r md:border-b-0 border-b pb-8 md:pb-4">
+                    <h3 class="text-2xl font-semibold text-[#ff6361] mb-4">การดูดกลืน (Absorption)</h3>
+                    <div class="flex items-center justify-center space-x-4">
+                        <span class="photon">~></span>
+                        <div class="atom-diagram">
+                            <div class="w-6 h-6 bg-[#58508d] rounded-full"></div>
+                            <div class="energy-level" style="width: 70px; height: 70px;"></div>
+                            <div class="energy-level" style="width: 120px; height: 120px;"></div>
+                            <div class="absolute w-2 h-2 bg-black rounded-full" style="top: 22px; left: 50%; transform: translateX(-50%);"></div>
+                        </div>
+                        <span class="text-2xl font-bold text-gray-400">→</span>
+                        <div class="atom-diagram">
+                            <div class="w-6 h-6 bg-[#58508d] rounded-full"></div>
+                            <div class="energy-level" style="width: 70px; height: 70px;"></div>
+                            <div class="energy-level" style="width: 120px; height: 120px;"></div>
+                            <div class="absolute w-2 h-2 bg-black rounded-full" style="top: 12px; left: 50%; transform: translateX(-50%);"></div>
+                        </div>
+                    </div>
+                    <p class="mt-4 text-gray-600">อิเล็กตรอนได้รับพลังงานจากแสง (โฟตอน) แล้วกระโดดขึ้นไปสู่ระดับพลังงานที่สูงขึ้น ทำให้เกิด **เส้นมืด**</p>
+                </div>
+                <div class="text-center p-4">
+                    <h3 class="text-2xl font-semibold text-green-500 mb-4">การแผ่รังสี (Emission)</h3>
+                     <div class="flex items-center justify-center space-x-4">
+                         <div class="atom-diagram">
+                            <div class="w-6 h-6 bg-[#58508d] rounded-full"></div>
+                            <div class="energy-level" style="width: 70px; height: 70px;"></div>
+                            <div class="energy-level" style="width: 120px; height: 120px;"></div>
+                            <div class="absolute w-2 h-2 bg-black rounded-full" style="top: 12px; left: 50%; transform: translateX(-50%);"></div>
+                        </div>
+                        <span class="text-2xl font-bold text-gray-400">→</span>
+                        <div class="atom-diagram">
+                            <div class="w-6 h-6 bg-[#58508d] rounded-full"></div>
+                            <div class="energy-level" style="width: 70px; height: 70px;"></div>
+                            <div class="energy-level" style="width: 120px; height: 120px;"></div>
+                            <div class="absolute w-2 h-2 bg-black rounded-full" style="top: 22px; left: 50%; transform: translateX(-50%);"></div>
+                        </div>
+                        <span class="photon">~></span>
+                    </div>
+                    <p class="mt-4 text-gray-600">อิเล็กตรอนที่ "ตื่นเต้น" จะกลับสู่สถานะเดิม และปล่อยพลังงานออกมาเป็นแสง ทำให้เกิด **เส้นสว่าง**</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="cosmic-detective" class="card mb-16">
+            <h2 class="text-3xl font-bold text-center text-[#58508d] mb-2">นักสืบจักรวาล: สเปกตรัมบอกอะไรเกี่ยวกับดาวฤกษ์?</h2>
+            <p class="text-center text-gray-600 max-w-3xl mx-auto mb-6">เมื่อแสงจากดาวฤกษ์เดินทางผ่านชั้นบรรยากาศของดาวเอง ธาตุต่างๆ จะดูดกลืนแสงบางส่วนไป เกิดเป็นสเปกตรัมดูดกลืน นักดาราศาสตร์วิเคราะห์ "เส้นมืด" เหล่านี้เพื่อระบุว่าดาวดวงนั้นมีองค์ประกอบอะไรบ้าง</p>
+            <div class="chart-container">
+                <canvas id="starSpectrumChart"></canvas>
+            </div>
+        </section>
+
+        <section id="applications">
+            <h2 class="text-3xl font-bold text-center text-[#58508d] mb-8">การประยุกต์ใช้ในสาขาต่างๆ</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                <div class="p-4 bg-white rounded-lg shadow-sm"><span class="text-4xl">🔭</span><p class="font-semibold mt-2">ดาราศาสตร์</p></div>
+                <div class="p-4 bg-white rounded-lg shadow-sm"><span class="text-4xl">🧪</span><p class="font-semibold mt-2">เคมีวิเคราะห์</p></div>
+                <div class="p-4 bg-white rounded-lg shadow-sm"><span class="text-4xl">🌍</span><p class="font-semibold mt-2">สิ่งแวดล้อม</p></div>
+                <div class="p-4 bg-white rounded-lg shadow-sm"><span class="text-4xl">⚕️</span><p class="font-semibold mt-2">การแพทย์</p></div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="text-center p-4 mt-8 text-sm text-gray-500">
+        <p>อินโฟกราฟิกนี้จัดทำขึ้นเพื่อการศึกษาเกี่ยวกับสเปกตรัมและหลักการทำงานของมัน</p>
+    </footer>
+
+    <script>
+        const wrapLabel = (label, maxLength = 16) => {
+            if (typeof label !== 'string' || label.length <= maxLength) return label;
+            const words = label.split(' ');
+            const lines = [];
+            let currentLine = '';
+            for (const word of words) {
+                if ((currentLine + ' ' + word).trim().length > maxLength) {
+                    lines.push(currentLine.trim());
+                    currentLine = word;
+                } else {
+                    currentLine = (currentLine + ' ' + word).trim();
+                }
+            }
+            if (currentLine) lines.push(currentLine.trim());
+            return lines;
+        };
+
+        const tooltipTitleCallback = (tooltipItems) => {
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            if (Array.isArray(label)) {
+                return label.join(' ');
+            } else {
+                return label;
+            }
+        };
+
+        const ctx = document.getElementById('starSpectrumChart').getContext('2d');
+        const labels = ['400 nm', '434 nm (H)', '450 nm', '486 nm (H)', '500 nm', '550 nm', '589 nm (Na)', '600 nm', '656 nm (H)', '700 nm'];
+        const data = [100, 40, 100, 30, 100, 100, 60, 100, 20, 100];
+
+        const processedLabels = labels.map(label => wrapLabel(label));
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: processedLabels,
+                datasets: [{
+                    label: 'ความเข้มของแสง',
+                    data: data,
+                    backgroundColor: (context) => {
+                        const value = context.dataset.data[context.dataIndex];
+                        return value < 100 ? '#ff6361' : '#aed5e8';
+                    },
+                    borderColor: '#58508d',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 110,
+                        title: {
+                            display: true,
+                            text: 'ความเข้มของแสงสัมพัทธ์'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'ความยาวคลื่น (nm) และธาตุที่เกี่ยวข้อง'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    title: {
+                        display: true,
+                        text: 'ตัวอย่างสเปกตรัมดูดกลืนของดาวฤกษ์',
+                        font: {
+                            size: 16
+                        },
+                        color: '#58508d'
+                    },
+                    tooltip: {
+                        callbacks: {
+                            title: tooltipTitleCallback,
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                label += context.parsed.y;
+                                if(context.parsed.y < 100) {
+                                    return [label, 'เส้นดูดกลืนถูกตรวจพบ!'];
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
+```

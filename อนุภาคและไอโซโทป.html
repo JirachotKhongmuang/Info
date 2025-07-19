@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>อินโฟกราฟิก: อนุภาคในอะตอมและไอโซโทป</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: #f0f9ff;
+            color: #0c202d;
+        }
+        .card {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            padding: 1.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #e2e8f0;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -2px rgb(0 0 0 / 0.1);
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        .particle-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: white;
+        }
+        .isotope-model {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .isotope-nucleus {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            gap: 2px;
+        }
+        .isotope-electron {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #ef4444;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%); /* Center the electron itself */
+            animation: orbit 4s linear infinite;
+        }
+        @keyframes orbit {
+            from { transform: translate(-50%, -50%) rotate(0deg) translateX(50px); }
+            to { transform: translate(-50%, -50%) rotate(360deg) translateX(50px); }
+        }
+    </style>
+</head>
+<body>
+
+    <main class="container mx-auto p-4 md:p-8">
+
+        <header class="text-center mb-16">
+            <h1 class="text-4xl md:text-5xl font-bold text-[#004c6d]">ส่วนประกอบของสสาร</h1>
+            <p class="text-lg text-gray-600 mt-2 max-w-3xl mx-auto">เจาะลึกโครงสร้างพื้นฐานของอะตอม: อนุภาคย่อยและแนวคิดเรื่องไอโซโทป</p>
+        </header>
+
+        <section id="atomic-trio" class="mb-16">
+            <h2 class="text-3xl font-bold text-center text-[#004c6d] mb-8">สามทหารเสือแห่งอะตอม</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="card text-center">
+                    <div class="particle-icon mx-auto bg-blue-500">p⁺</div>
+                    <h3 class="text-2xl font-bold mt-4 text-[#346b89]">โปรตอน</h3>
+                    <p class="mt-2 text-gray-600"><strong>ประจุ:</strong> บวก (+1)<br><strong>ตำแหน่ง:</strong> ในนิวเคลียส<br><strong>บทบาท:</strong> กำหนดชนิดของธาตุ</p>
+                </div>
+                <div class="card text-center">
+                    <div class="particle-icon mx-auto bg-gray-500">n⁰</div>
+                    <h3 class="text-2xl font-bold mt-4 text-[#346b89]">นิวตรอน</h3>
+                    <p class="mt-2 text-gray-600"><strong>ประจุ:</strong> เป็นกลาง (0)<br><strong>ตำแหน่ง:</strong> ในนิวเคลียส<br><strong>บทบาท:</strong> เพิ่มเสถียรภาพให้นิวเคลียส</p>
+                </div>
+                <div class="card text-center">
+                    <div class="particle-icon mx-auto bg-red-500">e⁻</div>
+                    <h3 class="text-2xl font-bold mt-4 text-[#346b89]">อิเล็กตรอน</h3>
+                    <p class="mt-2 text-gray-600"><strong>ประจุ:</strong> ลบ (-1)<br><strong>ตำแหน่ง:</strong> โคจรรอบนิวเคลียส<br><strong>บทบาท:</strong> กำหนดสมบัติทางเคมี</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="atomic-numbers" class="card mb-16">
+             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div>
+                    <h2 class="text-3xl font-bold text-[#004c6d]">การถอดรหัสอะตอม</h2>
+                    <p class="mt-2 text-gray-600">เราใช้ตัวเลขสองค่าเพื่ออธิบายองค์ประกอบของนิวเคลียส:</p>
+                    <ul class="mt-4 space-y-2">
+                        <li><strong class="text-[#5c8ca8]">เลขอะตอม (Z):</strong> คือจำนวน <span class="font-bold text-blue-600">โปรตอน</span> เป็นตัวบอกว่านี่คือธาตุอะไร</li>
+                        <li><strong class="text-[#5c8ca8]">เลขมวล (A):</strong> คือผลรวมของ <span class="font-bold text-blue-600">โปรตอน</span> และ <span class="font-bold text-gray-600">นิวตรอน</span></li>
+                    </ul>
+                </div>
+                <div class="text-center bg-gray-50 p-6 rounded-lg">
+                    <p class="text-lg">สัญลักษณ์นิวเคลียร์ของคาร์บอน-12:</p>
+                    <div class="my-2">
+                        <span class="text-7xl font-bold text-[#004c6d]">C</span>
+                        <span class="relative text-2xl">
+                            <sup class="absolute -top-8 -left-2 font-bold text-gray-700">12</sup>
+                            <sub class="absolute -bottom-8 -left-1 font-bold text-gray-700">6</sub>
+                        </span>
+                    </div>
+                     <p class="text-gray-700">โปรตอน: 6<br>นิวตรอน: 12 - 6 = 6</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="isotopes" class="mb-16">
+            <h2 class="text-3xl font-bold text-center text-[#004c6d] mb-2">ไอโซโทปคืออะไร?</h2>
+            <p class="text-center text-gray-600 max-w-3xl mx-auto mb-8">ไอโซโทปคืออะตอมของธาตุชนิดเดียวกัน (มีโปรตอนเท่ากัน) แต่มีจำนวนนิวตรอนต่างกัน ทำให้มีมวลไม่เท่ากัน แต่ยังคงมีสมบัติทางเคมีเหมือนเดิม</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="card text-center">
+                    <h3 class="text-xl font-semibold mb-4 text-[#85b0c8]">โปรเทียม (<sup>1</sup>H)</h3>
+                    <div class="isotope-model mx-auto border-2 border-dashed border-gray-300 rounded-full">
+                        <div class="isotope-nucleus"><div class="w-4 h-4 rounded-full bg-blue-500"></div></div>
+                        <div class="isotope-electron"></div>
+                    </div>
+                    <p class="mt-2 font-semibold">1 โปรตอน, 0 นิวตรอน</p>
+                </div>
+                <div class="card text-center">
+                    <h3 class="text-xl font-semibold mb-4 text-[#5c8ca8]">ดิวเทอเรียม (<sup>2</sup>H)</h3>
+                    <div class="isotope-model mx-auto border-2 border-dashed border-gray-300 rounded-full">
+                        <div class="isotope-nucleus">
+                            <div class="w-4 h-4 rounded-full bg-blue-500"></div>
+                            <div class="w-4 h-4 rounded-full bg-gray-500"></div>
+                        </div>
+                        <div class="isotope-electron"></div>
+                    </div>
+                    <p class="mt-2 font-semibold">1 โปรตอน, 1 นิวตรอน</p>
+                </div>
+                <div class="card text-center">
+                     <h3 class="text-xl font-semibold mb-4 text-[#346b89]">ทริเทียม (<sup>3</sup>H)</h3>
+                    <div class="isotope-model mx-auto border-2 border-dashed border-gray-300 rounded-full">
+                        <div class="isotope-nucleus">
+                            <div class="w-4 h-4 rounded-full bg-blue-500"></div>
+                            <div class="w-4 h-4 rounded-full bg-gray-500"></div>
+                            <div class="w-4 h-4 rounded-full bg-gray-500"></div>
+                        </div>
+                        <div class="isotope-electron"></div>
+                    </div>
+                    <p class="mt-2 font-semibold">1 โปรตอน, 2 นิวตรอน</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="card mb-16">
+            <h2 class="text-3xl font-bold text-center text-[#004c6d] mb-2">กรณีศึกษา: ไอโซโทปของคาร์บอนในธรรมชาติ</h2>
+            <p class="text-center text-gray-600 max-w-3xl mx-auto mb-6">คาร์บอนในธรรมชาติส่วนใหญ่เป็นคาร์บอน-12 แต่ก็มีไอโซโทปอื่นปนอยู่เล็กน้อย ซึ่งคาร์บอน-14 ที่เป็นไอโซโทปกัมมันตรังสีนั้นมีประโยชน์อย่างยิ่งในการหาอายุวัตถุโบราณ</p>
+            <div class="chart-container">
+                <canvas id="carbonIsotopeChart"></canvas>
+            </div>
+        </section>
+
+         <section id="applications">
+            <h2 class="text-3xl font-bold text-center text-[#004c6d] mb-8">การประยุกต์ใช้ไอโซโทป</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                <div class="p-4 bg-white rounded-lg shadow-sm"><span class="text-5xl">⚕️</span><p class="font-semibold mt-2">การแพทย์</p><p class="text-sm text-gray-500">วินิจฉัยและรักษาโรค</p></div>
+                <div class="p-4 bg-white rounded-lg shadow-sm"><span class="text-5xl">🌱</span><p class="font-semibold mt-2">เกษตรกรรม</p><p class="text-sm text-gray-500">ปรับปรุงพันธุ์พืช</p></div>
+                <div class="p-4 bg-white rounded-lg shadow-sm"><span class="text-5xl">⛏️</span><p class="font-semibold mt-2">โบราณคดี</p><p class="text-sm text-gray-500">หาอายุวัตถุโบราณ</p></div>
+                <div class="p-4 bg-white rounded-lg shadow-sm"><span class="text-5xl">🏭</span><p class="font-semibold mt-2">อุตสาหกรรม</p><p class="text-sm text-gray-500">ตรวจสอบคุณภาพ</p></div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="text-center p-4 mt-8 text-sm text-gray-500">
+        <p>จัดทำเพื่อการศึกษาเกี่ยวกับอนุภาคในอะตอมและไอโซโทป</p>
+    </footer>
+
+    <script>
+        const wrapLabel = (label, maxLength = 16) => {
+            if (typeof label !== 'string' || label.length <= maxLength) return label;
+            const words = label.split(' ');
+            const lines = [];
+            let currentLine = '';
+            for (const word of words) {
+                if ((currentLine + ' ' + word).trim().length > maxLength) {
+                    lines.push(currentLine.trim());
+                    currentLine = word;
+                } else {
+                    currentLine = (currentLine + ' ' + word).trim();
+                }
+            }
+            if (currentLine) lines.push(currentLine.trim());
+            return lines;
+        };
+
+        const tooltipTitleCallback = (tooltipItems) => {
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            if (Array.isArray(label)) {
+                return label.join(' ');
+            } else {
+                return label;
+            }
+        };
+
+        const ctx = document.getElementById('carbonIsotopeChart').getContext('2d');
+        const labels = ['คาร์บอน-12', 'คาร์บอน-13', wrapLabel('คาร์บอน-14 (กัมมันตรังสี)')];
+        const data = [98.9, 1.1, 0.0000000001]; 
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'ปริมาณในธรรมชาติ (%)',
+                    data: data,
+                    backgroundColor: [
+                        '#85b0c8',
+                        '#5c8ca8',
+                        '#346b89'
+                    ],
+                    borderColor: '#004c6d',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                indexAxis: 'y',
+                scales: {
+                    x: {
+                        type: 'logarithmic',
+                        title: {
+                            display: true,
+                            text: 'ปริมาณในธรรมชาติ (%) (สเกลลอการิทึม)'
+                        },
+                        ticks: {
+                            callback: function(value, index, values) {
+                                return Number(value.toString()).toExponential()
+                            }
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'ไอโซโทปของคาร์บอน'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    title: {
+                        display: true,
+                        text: 'การเปรียบเทียบปริมาณไอโซโทปของคาร์บอนในธรรมชาติ',
+                        font: { size: 16 },
+                        color: '#004c6d'
+                    },
+                    tooltip: {
+                        callbacks: {
+                            title: tooltipTitleCallback,
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                let value = context.parsed.x;
+                                if (value !== null) {
+                                    if (value < 0.01) {
+                                        label += value.toExponential(2) + ' %';
+                                    } else {
+                                       label += value.toFixed(2) + ' %';
+                                    }
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

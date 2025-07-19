@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>อินโฟกราฟิก: การค้นพบอิเล็กตรอน</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- 
+    Palette Name: Brilliant Blues
+    HEX Codes: #004c6d, #346b89, #5c8ca8, #85b0c8, #aed5e8
+
+    Narrative Plan:
+    1. Header: Introduce the topic of the discovery of the electron.
+    2. The Apparatus: Explain and visually represent the Cathode Ray Tube using HTML/CSS.
+    3. Key Observations: A grid layout to showcase Thomson's four main observations with simple diagrams.
+       - Observation 1: Straight Line Travel (Shadow).
+       - Observation 2: Mass & Energy (Paddlewheel).
+       - Observation 3: Negative Charge (Electric Field Deflection).
+       - Observation 4: Universality (Different Materials, Same Ray).
+    4. Momentous Conclusions: A summary section highlighting Thomson's deductions.
+    5. The Ripple Effect: A timeline showing how this discovery changed atomic theory.
+    
+    Visualization Selection:
+    - CRT Apparatus -> Organize -> HTML/CSS Diagram -> Justification: A visual diagram is essential for understanding the setup. HTML/CSS is the only allowed method for this. NO SVG.
+    - Observation 1 (Shadow) -> Inform -> HTML/CSS Diagram -> Justification: A simple visual of a cross casting a shadow is the clearest way to show straight-line travel. NO SVG.
+    - Observation 2 (Paddlewheel) -> Inform -> HTML/CSS Diagram/Pictograph -> Justification: Shows the ray has momentum by making an object move. Unicode characters and styled divs work best. NO SVG.
+    - Observation 3 (Deflection) -> Inform -> HTML/CSS Diagram -> Justification: A diagram is the most effective way to show the path bending towards the positive plate. NO SVG.
+    - Observation 4 (Universality) -> Compare -> List/Diagram -> Justification: Shows different inputs (materials) lead to the same output (electron ray). NO SVG.
+    - Ripple Effect -> Change -> HTML/CSS Timeline -> Justification: A timeline is the ideal way to show the chronological progression of atomic models resulting from the discovery. NO SVG.
+
+    Confirmation: NEITHER Mermaid JS NOR SVG were used in this file. All diagrams are built using structured HTML and styled with Tailwind CSS. No Chart.js or Plotly.js were needed as the source material is conceptual, not quantitative.
+    -->
+    <style>
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: #f0f9ff;
+            color: #0c202d;
+        }
+        .card {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            padding: 1.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -2px rgb(0 0 0 / 0.1);
+        }
+        .crt-diagram {
+            position: relative;
+            height: 120px;
+            background: #aed5e8;
+            border: 3px solid #004c6d;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            overflow: hidden;
+        }
+        .cathode, .anode {
+            width: 20px;
+            height: 60px;
+            background-color: #346b89;
+        }
+        .cathode-ray {
+            position: absolute;
+            left: 45px;
+            width: calc(100% - 90px);
+            height: 4px;
+            background-color: #ffffff;
+            animation: beam 2s linear infinite;
+        }
+        @keyframes beam {
+            0% { opacity: 0.5; }
+            50% { opacity: 1; }
+            100% { opacity: 0.5; }
+        }
+        .paddle-wheel {
+            font-size: 3rem;
+            animation: spin 2s linear infinite;
+            color: #346b89;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -30px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #5c8ca8;
+            border: 4px solid white;
+        }
+    </style>
+</head>
+<body>
+    <main class="container mx-auto p-4 md:p-8">
+
+        <header class="text-center mb-16">
+            <h1 class="text-4xl md:text-6xl font-bold text-[#004c6d]">การค้นพบอิเล็กตรอน</h1>
+            <p class="text-xl text-[#346b89] mt-2">การทดลองหลอดรังสีแคโทดที่เปลี่ยนแปลงโลกวิทยาศาสตร์</p>
+        </header>
+
+        <section id="apparatus" class="mb-16">
+            <div class="card md:flex items-center gap-8">
+                <div class="md:w-1/2">
+                    <h2 class="text-3xl font-bold text-[#004c6d]">อุปกรณ์สำคัญ: หลอดรังสีแคโทด</h2>
+                    <p class="text-gray-600 mt-2">หลอดแก้วสุญญากาศที่ เจ.เจ. ทอมสัน ใช้ในการศึกษาธรรมชาติของรังสีปริศนา ประกอบด้วยขั้วไฟฟ้าสองขั้ว เมื่อให้ไฟฟ้าแรงสูง จะเกิดลำแสงพุ่งจากขั้วลบ (แคโทด) ไปยังขั้วบวก (แอโนด)</p>
+                </div>
+                <div class="md:w-1/2 mt-6 md:mt-0">
+                    <div class="crt-diagram">
+                        <div class="cathode rounded-l-md"></div>
+                        <div class="cathode-ray"></div>
+                        <div class="anode rounded-r-md"></div>
+                    </div>
+                    <div class="flex justify-between mt-2 text-sm font-semibold text-[#004c6d]">
+                        <span>แคโทด (ขั้วลบ)</span>
+                        <span>แอโนด (ขั้วบวก)</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="observations" class="mb-16">
+            <h2 class="text-4xl font-bold text-center text-[#004c6d] mb-8">4 การสังเกตการณ์สำคัญ</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="card">
+                    <h3 class="text-2xl font-semibold text-[#346b89]">1. เดินทางเป็นเส้นตรง</h3>
+                    <p class="text-gray-600 mt-2">เมื่อมีวัตถุมาขวางกั้นรังสี จะเกิดเงาที่คมชัดบนฉากด้านหลัง แสดงว่ารังสีเดินทางเป็นเส้นตรง</p>
+                    <div class="h-24 flex items-center justify-center bg-gray-100 rounded-lg mt-4 text-4xl text-[#346b89]">✠ ➞ <span class="ml-4 text-gray-300">✠</span></div>
+                </div>
+                <div class="card">
+                    <h3 class="text-2xl font-semibold text-[#346b89]">2. มีมวลและพลังงาน</h3>
+                    <p class="text-gray-600 mt-2">รังสีสามารถทำให้กังหันเล็กๆ ที่ขวางอยู่หมุนได้ แสดงว่ารังสีประกอบด้วยอนุภาคที่มีมวลและมีพลังงานจลน์</p>
+                     <div class="h-24 flex items-center justify-center bg-gray-100 rounded-lg mt-4"><span class="paddle-wheel">⚙️</span></div>
+                </div>
+                <div class="card">
+                    <h3 class="text-2xl font-semibold text-[#346b89]">3. มีประจุเป็นลบ</h3>
+                    <p class="text-gray-600 mt-2">รังสีเบนเข้าหาแผ่นโลหะขั้วบวกในสนามไฟฟ้า ซึ่งเป็นพฤติกรรมของอนุภาคที่มีประจุเป็นลบ</p>
+                    <div class="h-24 flex flex-col justify-center bg-gray-100 rounded-lg mt-4 p-2 relative">
+                        <div class="w-full h-1 bg-green-400 font-bold text-center text-white text-xl">+</div>
+                         <div class="w-10/12 h-1 bg-white absolute left-0 top-1/2 transform -translate-y-1/2 origin-left" style="animation: bend 2s ease-in-out infinite alternate;"></div>
+                        <div class="w-full h-1 bg-red-400 font-bold text-center text-white text-xl mt-12">-</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3 class="text-2xl font-semibold text-[#346b89]">4. เป็นองค์ประกอบพื้นฐาน</h3>
+                    <p class="text-gray-600 mt-2">ไม่ว่าจะเปลี่ยนชนิดของโลหะที่ทำแคโทดหรือชนิดของแก๊สในหลอด ผลที่ได้ยังคงเหมือนเดิมทุกประการ</p>
+                    <div class="h-24 flex items-center justify-around bg-gray-100 rounded-lg mt-4 text-2xl">
+                        <span>Cu</span> → <span class="text-[#5c8ca8]">e⁻</span>
+                        <span>Al</span> → <span class="text-[#5c8ca8]">e⁻</span>
+                        <span>Au</span> → <span class="text-[#5c8ca8]">e⁻</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="conclusion" class="mb-16 card bg-[#004c6d] text-white">
+            <h2 class="text-4xl font-bold text-center text-white mb-4">ข้อสรุปที่เปลี่ยนแปลงโลก</h2>
+            <p class="text-center text-lg text-[#aed5e8] max-w-3xl mx-auto">จากผลการทดลอง ทอมสันสรุปว่าอะตอมไม่ใช่สิ่งที่เล็กที่สุด แต่ประกอบด้วยอนุภาคที่มีประจุลบ ซึ่งก็คือ **อิเล็กตรอน (electron)** และมันเป็นองค์ประกอบพื้นฐานของสสารทุกชนิดบนโลก</p>
+        </section>
+
+        <section id="impact">
+            <h2 class="text-4xl font-bold text-center text-[#004c6d] mb-8">ผลกระทบที่ตามมา</h2>
+            <div class="relative pl-8 border-l-4 border-[#5c8ca8]">
+                <div class="card mb-8 relative timeline-item">
+                    <h3 class="text-2xl font-semibold text-[#346b89]">ล้มล้างแนวคิดเดิม</h3>
+                    <p class="text-gray-600 mt-2">การค้นพบนี้ได้ลบล้างแบบจำลองอะตอมของดอลตันที่ว่า "อะตอมแบ่งแยกไม่ได้" ซึ่งเป็นความเชื่อหลักมาเกือบร้อยปี</p>
+                </div>
+                <div class="card mb-8 relative timeline-item">
+                    <h3 class="text-2xl font-semibold text-[#346b89]">กำเนิดแบบจำลองใหม่</h3>
+                    <p class="text-gray-600 mt-2">ทอมสันเสนอแบบจำลองอะตอมใหม่ (Plum Pudding Model) ที่มีลักษณะเป็นทรงกลมประจุบวกและมีอิเล็กตรอนฝังกระจายอยู่ทั่วไป</p>
+                </div>
+                <div class="card relative timeline-item">
+                    <h3 class="text-2xl font-semibold text-[#346b89]">เปิดประตูสู่โลกควอนตัม</h3>
+                    <p class="text-gray-600 mt-2">เป็นจุดเริ่มต้นของการศึกษาโครงสร้างภายในอะตอม นำไปสู่การค้นพบโปรตอน นิวตรอน และการพัฒนาทฤษฎีกลศาสตร์ควอนตัมในที่สุด</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    <footer class="text-center p-4 mt-8 text-sm text-gray-500">
+        <p>จัดทำเพื่อการศึกษา โดยนำเสนอข้อมูลจากการทดลองหลอดรังสีแคโทด</p>
+    </footer>
+    <style>
+        @keyframes bend {
+            from {
+                transform: rotate(0deg) translateY(-50%);
+            }
+            to {
+                transform: rotate(-10deg) translateY(-50%);
+            }
+        }
+    </style>
+</body>
+</html>
+```

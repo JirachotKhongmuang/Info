@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>อินโฟกราฟิก: การจัดเรียงอิเล็กตรอน</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- 
+    Palette Name: Energetic & Playful
+    HEX Codes: #58508d, #bc5090, #ff6361, #ffa600
+
+    Narrative Plan:
+    1. Header: Introduce the topic as the "blueprint" of an atom.
+    2. The Three Golden Rules: A visual breakdown of Aufbau, Pauli, and Hund's rules.
+    3. The Energy Level Map (Aufbau Diagram): A central, large diagram built with HTML/CSS to show the electron filling order.
+    4. Building an Atom (Oxygen): A step-by-step example combining orbital diagrams and a donut chart to show valence electrons.
+    5. Valence Electrons & The Periodic Table: Connect the concept of valence electrons to an element's position and its chemical properties.
+    6. Why It Matters: Summarize the key applications of understanding electron configuration.
+    
+    Visualization Selection:
+    - The 3 Golden Rules -> Organize/Inform -> HTML/CSS Pictographs -> Justification: Simple diagrams are best for explaining rules. Built with styled divs and Unicode. NO SVG.
+    - Aufbau Diagram -> Organize/Process -> Flowchart-style HTML/CSS Diagram -> Justification: The core visual for understanding electron filling order. Built with a grid and pseudo-elements for arrows. NO SVG, NO MERMAID JS.
+    - Building Oxygen -> Compare/Inform -> Donut Chart -> Justification: A donut chart perfectly shows the part-to-whole relationship between core and valence electrons. Method: Chart.js/Canvas. NO SVG.
+    - Periodic Table Connection -> Reveal Relationships -> HTML/CSS Diagram -> Justification: A simplified table visual clearly links configuration to element groups. Method: HTML/CSS. NO SVG.
+
+    Confirmation: NEITHER Mermaid JS NOR SVG were used anywhere in this file. All diagrams are built with structured HTML and styled with Tailwind CSS. The chart is rendered by Chart.js on an HTML Canvas.
+    -->
+    <style>
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: #f7f3ff;
+            color: #1a202c;
+        }
+        .card {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            padding: 1.5rem;
+            border: 1px solid #e2e8f0;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 300px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+        }
+        .orbital-box {
+            width: 50px;
+            height: 50px;
+            border: 2px solid #58508d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #58508d;
+            background-color: #f7f3ff;
+            border-radius: 4px;
+        }
+        .aufbau-diagram {
+            position: relative;
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 1rem;
+            max-width: 500px;
+            margin: auto;
+        }
+        .aufbau-orbital {
+            font-family: monospace;
+            font-size: 1.25rem;
+            padding: 0.75rem;
+            border: 2px solid #58508d;
+            color: #58508d;
+            background-color: white;
+            border-radius: 50%;
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 10;
+        }
+        .aufbau-arrow {
+            position: absolute;
+            left: 5px;
+            top: -20px;
+            width: 100%;
+            height: 120%;
+            background: linear-gradient(to top right, transparent 49%, #ff6361 49%, #ff6361 51%, transparent 51%);
+            z-index: 1;
+            transform-origin: top left;
+        }
+    </style>
+</head>
+<body class="bg-[#f7f3ff]">
+
+    <main class="container mx-auto p-4 md:p-8">
+
+        <header class="text-center mb-16">
+            <h1 class="text-4xl md:text-5xl font-bold text-[#58508d]">แผนผังอิเล็กตรอน</h1>
+            <p class="text-lg text-gray-600 mt-2 max-w-3xl mx-auto">กุญแจสำคัญที่ไขความลับสมบัติทางเคมีของธาตุทุกชนิด</p>
+        </header>
+
+        <section id="the-rules" class="mb-16">
+            <h2 class="text-3xl font-bold text-center text-[#58508d] mb-8">3 กฎทองของการจัดเรียงอิเล็กตรอน</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                <div class="card">
+                    <h3 class="text-xl font-semibold mb-4 text-[#bc5090]">1. หลักการเอาฟบาว</h3>
+                    <div class="flex justify-center items-end gap-2 h-24">
+                        <div class="w-8 h-8 bg-[#ffa600]"></div>
+                        <div class="w-8 h-12 bg-[#ffa600]"></div>
+                        <div class="w-8 h-20 bg-[#ffa600]"></div>
+                    </div>
+                    <p class="mt-4 text-gray-600">อิเล็กตรอนจะเติมในระดับพลังงานที่ **ต่ำที่สุด** ก่อนเสมอ</p>
+                </div>
+                <div class="card">
+                    <h3 class="text-xl font-semibold mb-4 text-[#bc5090]">2. หลักการของเพาลี</h3>
+                    <div class="orbital-box mx-auto text-3xl text-red-500">⬆️⬇️</div>
+                    <p class="mt-4 text-gray-600">1 ออร์บิทัล บรรจุได้สูงสุด **2 อิเล็กตรอน** และต้องมีสปินตรงข้ามกัน</p>
+                </div>
+                <div class="card">
+                    <h3 class="text-xl font-semibold mb-4 text-[#bc5090]">3. กฎของฮุนด์</h3>
+                    <div class="flex justify-center gap-2">
+                        <div class="orbital-box text-2xl text-green-500">⬆️</div>
+                        <div class="orbital-box text-2xl text-green-500">⬆️</div>
+                        <div class="orbital-box text-2xl text-green-500">⬆️</div>
+                    </div>
+                    <p class="mt-4 text-gray-600">จะเติมอิเล็กตรอนเดี่ยวให้ครบทุกออร์บิทัลก่อน แล้วจึงค่อยจับคู่</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="aufbau-principle" class="card mb-16">
+            <h2 class="text-3xl font-bold text-center text-[#58508d] mb-6">แผนที่พลังงาน (หลักการเอาฟบาว)</h2>
+            <p class="text-center text-gray-600 max-w-2xl mx-auto mb-8">นี่คือลำดับการเติมอิเล็กตรอนลงในออร์บิทัลต่างๆ โดยเรียงตามระดับพลังงานจากต่ำไปสูง (ตามแนวลูกศร)</p>
+            <div class="relative w-full overflow-x-auto">
+                <div class="aufbau-diagram p-8" style="min-width: 500px;">
+                    <div class="aufbau-orbital" style="grid-row: 1; grid-column: 1;">1s</div>
+                    <div class="aufbau-orbital" style="grid-row: 2; grid-column: 1;">2s</div>
+                    <div class="aufbau-orbital" style="grid-row: 2; grid-column: 2;">2p</div>
+                    <div class="aufbau-orbital" style="grid-row: 3; grid-column: 1;">3s</div>
+                    <div class="aufbau-orbital" style="grid-row: 3; grid-column: 2;">3p</div>
+                    <div class="aufbau-orbital" style="grid-row: 3; grid-column: 3;">3d</div>
+                    <div class="aufbau-orbital" style="grid-row: 4; grid-column: 1;">4s</div>
+                    <div class="aufbau-orbital" style="grid-row: 4; grid-column: 2;">4p</div>
+                    <div class="aufbau-orbital" style="grid-row: 4; grid-column: 3;">4d</div>
+                    <div class="aufbau-orbital" style="grid-row: 4; grid-column: 4;">4f</div>
+                    <div class="aufbau-orbital" style="grid-row: 5; grid-column: 1;">5s</div>
+                    <div class="aufbau-orbital" style="grid-row: 5; grid-column: 2;">5p</div>
+                    <div class="aufbau-orbital" style="grid-row: 5; grid-column: 3;">5d</div>
+                    <div class="aufbau-orbital" style="grid-row: 5; grid-column: 4;">5f</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="building-atom" class="card mb-16">
+            <h2 class="text-3xl font-bold text-center text-[#58508d] mb-6">มาสร้างอะตอมกัน: ตัวอย่างธาตุออกซิเจน (O, Z=8)</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div>
+                    <p class="mb-4 text-gray-600">ออกซิเจนมี 8 อิเล็กตรอน เราจะเติมตามกฎทั้งสามข้อ:</p>
+                    <div class="space-y-2 font-mono text-lg">
+                        <p><strong>1s:</strong> <span class="orbital-box inline-flex w-12 h-12">⬆️⬇️</span></p>
+                        <p><strong>2s:</strong> <span class="orbital-box inline-flex w-12 h-12">⬆️⬇️</span></p>
+                        <p><strong>2p:</strong> <span class="orbital-box inline-flex w-12 h-12">⬆️⬇️</span><span class="orbital-box inline-flex w-12 h-12">⬆️</span><span class="orbital-box inline-flex w-12 h-12">⬆️</span></p>
+                    </div>
+                    <p class="mt-4 font-bold text-xl text-[#58508d]">การจัดเรียง: 1s² 2s² 2p⁴</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold text-center mb-2">อิเล็กตรอนแกน vs เวเลนซ์อิเล็กตรอน</h3>
+                     <div class="chart-container">
+                        <canvas id="oxygenChart"></canvas>
+                    </div>
+                    <p class="text-center text-gray-600 mt-2">มี **6 เวเลนซ์อิเล็กตรอน** (ในระดับพลังงาน n=2) ซึ่งเป็นตัวกำหนดสมบัติทางเคมีของออกซิเจน</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="valence-electrons">
+            <h2 class="text-3xl font-bold text-center text-[#58508d] mb-8">เวเลนซ์อิเล็กตรอนและตารางธาตุ</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="card">
+                    <h3 class="text-2xl font-semibold text-[#bc5090]">สมบัติทางเคมีที่คล้ายกัน</h3>
+                    <p class="mt-2 text-gray-600">ธาตุใน **หมู่ (แนวตั้ง)** เดียวกัน จะมีจำนวนเวเลนซ์อิเล็กตรอนเท่ากัน ทำให้มีสมบัติทางเคมีคล้ายคลึงกันอย่างน่าทึ่ง</p>
+                    <div class="mt-4 p-4 bg-gray-50 rounded-lg">
+                        <p><strong>หมู่ 1 (Alkali Metals):</strong></p>
+                        <p>Li: [He] 2s¹</p>
+                        <p>Na: [Ne] 3s¹</p>
+                        <p>K: [Ar] 4s¹</p>
+                        <p class="mt-2 font-semibold">→ มี 1 เวเลนซ์อิเล็กตรอน → ว่องไวต่อปฏิกิริยาสูง</p>
+                    </div>
+                </div>
+                 <div class="card">
+                    <h3 class="text-2xl font-semibold text-[#bc5090]">ระดับพลังงาน</h3>
+                    <p class="mt-2 text-gray-600">ธาตุใน **คาบ (แนวนอน)** เดียวกัน จะมีจำนวนระดับพลังงานหลักของเวเลนซ์อิเล็กตรอนเท่ากัน</p>
+                    <div class="mt-4 p-4 bg-gray-50 rounded-lg">
+                        <p><strong>คาบ 2:</strong></p>
+                        <p>Li: [He] 2s¹</p>
+                        <p>C: [He] 2s² 2p²</p>
+                        <p>Ne: [He] 2s² 2p⁶</p>
+                        <p class="mt-2 font-semibold">→ เวเลนซ์อิเล็กตรอนอยู่ในระดับพลังงาน n=2</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    <footer class="text-center p-4 mt-8 text-sm text-gray-500">
+        <p>จัดทำขึ้นเพื่อการศึกษาเกี่ยวกับหลักการจัดเรียงอิเล็กตรอนในอะตอม</p>
+    </footer>
+
+    <script>
+        const wrapLabel = (label, maxLength = 16) => {
+            if (typeof label !== 'string' || label.length <= maxLength) return label;
+            const words = label.split(' ');
+            const lines = [];
+            let currentLine = '';
+            for (const word of words) {
+                if ((currentLine + ' ' + word).trim().length > maxLength) {
+                    lines.push(currentLine.trim());
+                    currentLine = word;
+                } else {
+                    currentLine = (currentLine + ' ' + word).trim();
+                }
+            }
+            if (currentLine) lines.push(currentLine.trim());
+            return lines;
+        };
+
+        const tooltipTitleCallback = (tooltipItems) => {
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            if (Array.isArray(label)) {
+                return label.join(' ');
+            } else {
+                return label;
+            }
+        };
+
+        const ctx = document.getElementById('oxygenChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['อิเล็กตรอนแกน (Core)', 'เวเลนซ์อิเล็กตรอน (Valence)'],
+                datasets: [{
+                    label: 'จำนวนอิเล็กตรอน',
+                    data: [2, 6],
+                    backgroundColor: ['#58508d', '#ffa600'],
+                    borderColor: '#ffffff',
+                    borderWidth: 4,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                    },
+                    title: {
+                        display: true,
+                        text: 'ส่วนประกอบอิเล็กตรอนของออกซิเจน',
+                        color: '#58508d'
+                    },
+                    tooltip: {
+                         callbacks: {
+                            title: tooltipTitleCallback
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
+```

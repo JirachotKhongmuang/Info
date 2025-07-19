@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>อินโฟกราฟิก: แผนที่แห่งธาตุ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: #f0f9ff;
+            color: #0c202d;
+        }
+        .card {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            padding: 1.5rem;
+            border: 1px solid #e2e8f0;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        .trend-arrow {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+            color: #004c6d;
+        }
+    </style>
+</head>
+<body>
+
+    <main class="container mx-auto p-4 md:p-8">
+
+        <header class="text-center mb-16">
+            <h1 class="text-4xl md:text-5xl font-bold text-[#004c6d]">แผนที่แห่งธาตุ</h1>
+            <p class="text-lg text-gray-600 mt-2 max-w-3xl mx-auto">สำรวจตารางธาตุ: เครื่องมือที่ไขความลับของสสารทุกชนิดในจักรวาล</p>
+        </header>
+
+        <section id="anatomy" class="card mb-16">
+            <h2 class="text-3xl font-bold text-center text-[#004c6d] mb-6">กายวิภาคของตารางธาตุ</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-center">
+                <div class="p-4 bg-blue-50 rounded-lg">
+                    <h3 class="text-2xl font-semibold text-[#346b89] mb-2">คาบ (แถวแนวนอน)</h3>
+                    <p class="text-gray-700">บอก <strong class="text-[#004c6d]">จำนวนระดับพลังงาน</strong> ของอิเล็กตรอน ยิ่งลงไปคาบล่างๆ อะตอมยิ่งมีขนาดใหญ่ขึ้น</p>
+                </div>
+                <div class="p-4 bg-green-50 rounded-lg">
+                    <h3 class="text-2xl font-semibold text-green-700 mb-2">หมู่ (แถวแนวตั้ง)</h3>
+                    <p class="text-gray-700">บอก <strong class="text-green-800]">จำนวนเวเลนซ์อิเล็กตรอน</strong> ธาตุในหมู่เดียวกันจึงมีสมบัติทางเคมีคล้ายกัน</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="trends" class="card mb-16">
+            <h2 class="text-3xl font-bold text-center text-[#004c6d] mb-6">กฎการเดินทางบนแผนที่ (แนวโน้มสมบัติธาตุ)</h2>
+            <div class="relative w-full max-w-lg mx-auto p-4 bg-gray-50 rounded-lg" style="height: 250px;">
+                <div class="w-full h-full border-2 border-dashed border-gray-300"></div>
+                
+                <div class="trend-arrow" style="top: 10px; left: 50%; transform: translateX(-50%);">
+                    <span class="text-sm">ขนาดอะตอมลดลง, IE & EN เพิ่มขึ้น</span>
+                    <span class="text-2xl ml-2">➡️</span>
+                </div>
+                
+                <div class="trend-arrow" style="bottom: 10px; right: 10px; writing-mode: vertical-rl; transform: rotate(180deg);">
+                    <span class="text-sm">ขนาดอะตอมเพิ่มขึ้น, IE & EN ลดลง</span>
+                    <span class="text-2xl mt-2">➡️</span>
+                </div>
+
+                 <div class="absolute bottom-2 left-2 text-xs text-gray-500">
+                    <p>IE = พลังงานไอออไนเซชัน</p>
+                    <p>EN = อิเล็กโตรเนกาติวิตี</p>
+                </div>
+            </div>
+            <p class="text-center mt-4 text-gray-600">สมบัติของธาตุเปลี่ยนแปลงอย่างมีแบบแผนเมื่อเราเคลื่อนที่ไปบนตารางธาตุ ทำให้เราสามารถทำนายพฤติกรรมของธาตุต่างๆ ได้</p>
+        </section>
+
+        <section id="main-groups" class="mb-16">
+             <h2 class="text-3xl font-bold text-center text-[#004c6d] mb-8">พบกับครอบครัวธาตุหมู่หลัก</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="card text-center hover:border-[#346b89]">
+                    <h3 class="text-xl font-semibold text-[#346b89]">หมู่ 1: โลหะอัลคาไล</h3>
+                    <div class="text-6xl my-4">🔥</div>
+                    <p>ว่องไวต่อปฏิกิริยาสูงสุด เสีย 1 อิเล็กตรอนได้ง่ายมาก</p>
+                </div>
+                 <div class="card text-center hover:border-[#5c8ca8]">
+                    <h3 class="text-xl font-semibold text-[#5c8ca8]">หมู่ 2: โลหะอัลคาไลน์เอิร์ท</h3>
+                    <div class="text-6xl my-4">⛰️</div>
+                    <p>ว่องไว แต่ไม่เท่าหมู่ 1 พบมากในหินและแร่ธาตุ</p>
+                </div>
+                <div class="card text-center hover:border-[#85b0c8]">
+                    <h3 class="text-xl font-semibold text-[#85b0c8]">หมู่ 17: แฮโลเจน</h3>
+                    <div class="text-6xl my-4">💨</div>
+                    <p>อโลหะจอมช่วงชิง ต้องการรับอีก 1 อิเล็กตรอนอย่างยิ่ง</p>
+                </div>
+                 <div class="card text-center hover:border-[#aed5e8]">
+                    <h3 class="text-xl font-semibold text-[#aed5e8]">หมู่ 18: แก๊สมีสกุล</h3>
+                    <div class="text-6xl my-4">💎</div>
+                    <p>เสถียรสุดๆ ไม่ทำปฏิกิริยา เพราะมีอิเล็กตรอนวงนอกครบ</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="card mb-16">
+            <h2 class="text-3xl font-bold text-center text-[#004c6d] mb-2">แนวโน้มในโลกความเป็นจริง</h2>
+            <p class="text-center text-gray-600 max-w-3xl mx-auto mb-6">กราฟนี้แสดงพลังงานไอออไนเซชัน (พลังงานที่ใช้ดึงอิเล็กตรอน) ของธาตุในคาบที่ 3 จะเห็นว่ามีแนวโน้มเพิ่มขึ้นจากซ้ายไปขวาอย่างชัดเจนตามกฎ</p>
+             <div class="chart-container">
+                <canvas id="ionizationEnergyChart"></canvas>
+            </div>
+             <p class="text-center mt-4 text-sm text-gray-500">*ค่าพลังงานมีการลดลงเล็กน้อยที่ Al และ S เนื่องจากโครงสร้างออร์บิทัลมีความเสถียรน้อยกว่าธาตุก่อนหน้า</p>
+        </section>
+        
+    </main>
+
+    <footer class="text-center p-4 mt-8 text-sm text-gray-500">
+        <p>จัดทำขึ้นเพื่อการศึกษาเกี่ยวกับตารางธาตุและสมบัติของธาตุหมู่หลัก</p>
+    </footer>
+
+    <script>
+        const wrapLabel = (label, maxLength = 16) => {
+            if (typeof label !== 'string' || label.length <= maxLength) return label;
+            const words = label.split(' ');
+            const lines = [];
+            let currentLine = '';
+            for (const word of words) {
+                if ((currentLine + ' ' + word).trim().length > maxLength) {
+                    lines.push(currentLine.trim());
+                    currentLine = word;
+                } else {
+                    currentLine = (currentLine + ' ' + word).trim();
+                }
+            }
+            if (currentLine) lines.push(currentLine.trim());
+            return lines;
+        };
+
+        const tooltipTitleCallback = (tooltipItems) => {
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            if (Array.isArray(label)) {
+                return label.join(' ');
+            } else {
+                return label;
+            }
+        };
+
+        const ctx = document.getElementById('ionizationEnergyChart').getContext('2d');
+        const labels = ['Na', 'Mg', 'Al', 'Si', 'P', 'S', 'Cl', 'Ar'];
+        const data = [496, 738, 578, 787, 1012, 1000, 1251, 1521];
+
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'พลังงานไอออไนเซชันลำดับที่ 1 (kJ/mol)',
+                    data: data,
+                    borderColor: '#004c6d',
+                    backgroundColor: 'rgba(0, 76, 109, 0.1)',
+                    borderWidth: 3,
+                    pointBackgroundColor: '#ffffff',
+                    pointBorderColor: '#004c6d',
+                    pointBorderWidth: 2,
+                    pointRadius: 5,
+                    fill: true,
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        title: {
+                            display: true,
+                            text: 'พลังงาน (kJ/mol)'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'ธาตุในคาบที่ 3'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    title: {
+                        display: true,
+                        text: 'พลังงานไอออไนเซชันของธาตุในคาบที่ 3',
+                        font: { size: 16 },
+                        color: '#004c6d'
+                    },
+                    tooltip: {
+                        callbacks: {
+                            title: tooltipTitleCallback
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

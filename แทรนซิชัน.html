@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>อินโฟกราฟิก: ธาตุแทรนซิชัน - มหาอำนาจแห่งตารางธาตุ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- 
+    Palette Name: Energetic & Playful
+    HEX Codes: #58508d, #bc5090, #ff6361, #ffa600
+
+    Narrative Plan:
+    1. Header: Introduce Transition Elements as the versatile "workhorses" of the periodic table.
+    2. The d-Orbital Difference: Explain that their unique properties come from partially filled d-orbitals.
+    3. The Superpowers: A grid of cards highlighting the four most iconic properties:
+       - Multiple Oxidation States (visualized with a bar chart comparing Mn vs. Na).
+       - Colorful Compounds (visualized with HTML/CSS "beakers" of colored solutions).
+       - Catalytic Prowess (a simple flowchart of how a catalyst works).
+       - Magnetism (a diagram of unpaired electrons being attracted to a magnet).
+    4. Trend Spotlight - Melting Points: A bar chart showing the high but varied melting points of the first-row transition metals.
+    5. A Gallery of Industrial & Biological Stars: A grid showcasing key applications of elements like Iron, Copper, Titanium, and Gold.
+    
+    Visualization Selection:
+    - d-Orbital Concept -> Organize -> HTML/CSS Diagram -> Justification: Simple boxes are the clearest way to represent orbitals without complex imagery. Method: Styled HTML divs. NO SVG.
+    - Multiple Oxidation States -> Compare -> Bar Chart -> Justification: A bar chart provides a stark, immediate comparison of the number of states between a transition metal (Mn) and a main group metal (Na). Method: Chart.js/Canvas. NO SVG.
+    - Colorful Compounds -> Inform -> HTML/CSS Pictographs -> Justification: "Beakers" created with styled divs are a direct, visually appealing way to represent colored solutions. Method: HTML/CSS. NO SVG.
+    - Catalysis -> Organize/Process -> Flowchart -> Justification: A simple A -> B -> C flowchart is the best way to show a process. Method: HTML/CSS with Unicode arrows. NO SVG, NO MERMAID JS.
+    - Melting Points -> Compare/Change -> Bar Chart -> Justification: A bar chart is ideal for comparing values across a series, clearly showing the trend. Method: Chart.js/Canvas. NO SVG.
+    - Applications Gallery -> Organize -> Pictograph Grid -> Justification: Unicode icons provide quick, recognizable symbols for different industries and uses. Method: HTML/CSS with Unicode. NO SVG.
+
+    Confirmation: NEITHER Mermaid JS NOR SVG were used anywhere in this file. All diagrams are built with structured HTML and styled with Tailwind CSS. All charts are rendered by Chart.js on HTML Canvas elements.
+    -->
+    <style>
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: #f7f3ff;
+            color: #1a202c;
+        }
+        .card {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            padding: 1.5rem;
+            border: 1px solid #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            margin: auto;
+            height: 300px;
+        }
+        .beaker {
+            width: 80px;
+            height: 100px;
+            border: 4px solid #58508d;
+            border-top: none;
+            border-radius: 0 0 10px 10px;
+            position: relative;
+            background: linear-gradient(to top, var(--liquid-color) 70%, transparent 70%);
+        }
+        .beaker::before {
+            content: '';
+            position: absolute;
+            top: -4px;
+            left: -4px;
+            right: -4px;
+            height: 10px;
+            border: 4px solid #58508d;
+            border-bottom: none;
+            border-radius: 50% / 100%;
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+    </style>
+</head>
+<body class="bg-[#f7f3ff]">
+
+    <main class="container mx-auto p-4 md:p-8">
+
+        <header class="text-center mb-16">
+            <h1 class="text-4xl md:text-5xl font-bold text-[#58508d]">ธาตุแทรนซิชัน: มหาอำนาจแห่งตารางธาตุ</h1>
+            <p class="text-lg text-gray-600 mt-2 max-w-3xl mx-auto">กลุ่มธาตุที่เปรียบเสมือน "ม้างาน" อเนกประสงค์ของโลกเคมี ขับเคลื่อนทุกสิ่งตั้งแต่อุตสาหกรรมหนักไปจนถึงระบบชีวภาพในร่างกาย</p>
+        </header>
+
+        <section id="superpowers" class="mb-16">
+            <h2 class="text-3xl font-bold text-center text-[#58508d] mb-8">4 พลังพิเศษของธาตุแทรนซิชัน</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                
+                <div class="card text-center">
+                    <h3 class="text-xl font-semibold mb-4 text-[#bc5090]">มีหลายสถานะออกซิเดชัน</h3>
+                    <p class="text-gray-600 mb-4">สามารถให้หรือรับอิเล็กตรอนได้หลายระดับ ทำให้เกิดสารประกอบได้หลากหลาย</p>
+                    <div class="h-40">
+                        <canvas id="oxidationChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="card text-center">
+                    <h3 class="text-xl font-semibold mb-4 text-[#bc5090]">สารประกอบมีสีสัน</h3>
+                    <p class="text-gray-600 mb-4">สารประกอบส่วนใหญ่มีสีสันสวยงาม จากการกระโดดของอิเล็กตรอนใน d-orbital</p>
+                    <div class="flex justify-around items-end h-40">
+                        <div class="beaker" style="--liquid-color: rgba(100, 149, 237, 0.7);"></div>
+                        <div class="beaker" style="--liquid-color: rgba(128, 0, 128, 0.7);"></div>
+                        <div class="beaker" style="--liquid-color: rgba(60, 179, 113, 0.7);"></div>
+                    </div>
+                </div>
+
+                <div class="card text-center">
+                    <h3 class="text-xl font-semibold mb-4 text-[#bc5090]">เป็นตัวเร่งปฏิกิริยาชั้นยอด</h3>
+                    <p class="text-gray-600 mb-4">ช่วยเร่งปฏิกิริยาเคมีในอุตสาหกรรมและในเอนไซม์ของสิ่งมีชีวิต</p>
+                    <div class="flex items-center justify-center space-x-2 h-40 font-semibold text-[#58508d]">
+                        <span>สารตั้งต้น</span>
+                        <span class="text-4xl text-[#ffa600]">→</span>
+                        <span class="p-4 bg-gray-200 rounded-full">ตัวเร่ง</span>
+                        <span class="text-4xl text-[#ffa600]">→</span>
+                        <span>ผลิตภัณฑ์</span>
+                    </div>
+                </div>
+
+                <div class="card text-center">
+                    <h3 class="text-xl font-semibold mb-4 text-[#bc5090]">มีสมบัติเป็นแม่เหล็ก</h3>
+                     <p class="text-gray-600 mb-4">ส่วนใหญ่เป็นพาราแมกเนติก (ถูกแม่เหล็กดูด) เพราะมีอิเล็กตรอนเดี่ยว</p>
+                    <div class="flex items-center justify-center h-40">
+                        <span class="text-5xl">🧲</span>
+                        <div class="ml-4 border-2 border-[#58508d] p-2 rounded flex gap-1">
+                            <span class="text-xl">⬆️</span><span class="text-xl">⬆️</span><span class="text-xl">⬆️</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="melting-points" class="card mb-16">
+            <h2 class="text-3xl font-bold text-center text-[#58508d] mb-6">จุดเด่นด้านกายภาพ: จุดหลอมเหลวสูง</h2>
+            <p class="text-center text-gray-600 max-w-3xl mx-auto mb-8">ธาตุแทรนซิชันมีพันธะโลหะที่แข็งแรง ทำให้ส่วนใหญ่มีจุดหลอมเหลวสูงมาก ซึ่งเป็นสมบัติสำคัญในงานวิศวกรรมและอุตสาหกรรม</p>
+            <div class="chart-container">
+                <canvas id="meltingPointChart"></canvas>
+            </div>
+        </section>
+
+        <section id="applications">
+            <h2 class="text-3xl font-bold text-center text-[#58508d] mb-8">แกลเลอรีดาวเด่นแห่งอุตสาหกรรมและชีวภาพ</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+                <div class="p-4 bg-white rounded-lg shadow-sm">
+                    <div class="text-6xl">🏗️</div>
+                    <h4 class="font-bold text-lg mt-2">เหล็ก (Fe)</h4>
+                    <p class="text-sm text-gray-600">ราชาแห่งโครงสร้าง</p>
+                </div>
+                <div class="p-4 bg-white rounded-lg shadow-sm">
+                    <div class="text-6xl">🔌</div>
+                    <h4 class="font-bold text-lg mt-2">ทองแดง (Cu)</h4>
+                    <p class="text-sm text-gray-600">ผู้ส่งผ่านพลังงาน</p>
+                </div>
+                <div class="p-4 bg-white rounded-lg shadow-sm">
+                    <div class="text-6xl">✈️</div>
+                    <h4 class="font-bold text-lg mt-2">ไทเทเนียม (Ti)</h4>
+                    <p class="text-sm text-gray-600">เบาแต่แข็งแกร่ง</p>
+                </div>
+                <div class="p-4 bg-white rounded-lg shadow-sm">
+                    <div class="text-6xl">🩸</div>
+                    <h4 class="font-bold text-lg mt-2">เหล็กในเลือด (Fe)</h4>
+                    <p class="text-sm text-gray-600">ผู้ขนส่งออกซิเจน</p>
+                </div>
+                 <div class="p-4 bg-white rounded-lg shadow-sm">
+                    <div class="text-6xl">💍</div>
+                    <h4 class="font-bold text-lg mt-2">ทอง (Au)</h4>
+                    <p class="text-sm text-gray-600">สัญลักษณ์แห่งคุณค่า</p>
+                </div>
+                <div class="p-4 bg-white rounded-lg shadow-sm">
+                    <div class="text-6xl">🛡️</div>
+                    <h4 class="font-bold text-lg mt-2">โครเมียม (Cr)</h4>
+                    <p class="text-sm text-gray-600">เกราะป้องกันสนิม</p>
+                </div>
+                 <div class="p-4 bg-white rounded-lg shadow-sm">
+                    <div class="text-6xl">🔋</div>
+                    <h4 class="font-bold text-lg mt-2">นิกเกิล (Ni)</h4>
+                    <p class="text-sm text-gray-600">ขุมพลังแบตเตอรี่</p>
+                </div>
+                 <div class="p-4 bg-white rounded-lg shadow-sm">
+                    <div class="text-6xl">💊</div>
+                    <h4 class="font-bold text-lg mt-2">แพลทินัม (Pt)</h4>
+                    <p class="text-sm text-gray-600">ผู้ต่อสู้มะเร็ง</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="text-center p-4 mt-8 text-sm text-gray-500">
+        <p>จัดทำเพื่อการศึกษาเกี่ยวกับสมบัติและการประยุกต์ใช้ธาตุแทรนซิชัน</p>
+    </footer>
+
+    <script>
+        const wrapLabel = (label, maxLength = 16) => {
+            if (typeof label !== 'string' || label.length <= maxLength) return label;
+            const words = label.split(' ');
+            const lines = [];
+            let currentLine = '';
+            for (const word of words) {
+                if ((currentLine + ' ' + word).trim().length > maxLength) {
+                    lines.push(currentLine.trim());
+                    currentLine = word;
+                } else {
+                    currentLine = (currentLine + ' ' + word).trim();
+                }
+            }
+            if (currentLine) lines.push(currentLine.trim());
+            return lines;
+        };
+
+        const tooltipTitleCallback = (tooltipItems) => {
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            if (Array.isArray(label)) {
+                return label.join(' ');
+            } else {
+                return label;
+            }
+        };
+
+        new Chart(document.getElementById('oxidationChart').getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: ['โซเดียม (Na)', 'แมงกานีส (Mn)'],
+                datasets: [{
+                    label: 'จำนวนสถานะออกซิเดชันทั่วไป',
+                    data: [1, 6],
+                    backgroundColor: ['#ffa600', '#ff6361'],
+                    borderColor: '#58508d',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false, indexAxis: 'y',
+                plugins: { legend: { display: false }, tooltip: { callbacks: { title: tooltipTitleCallback } } },
+                scales: { x: { ticks: { stepSize: 1 } } }
+            }
+        });
+
+        new Chart(document.getElementById('meltingPointChart').getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: ['Sc', 'Ti', 'V', 'Cr', 'Mn', 'Fe', 'Co', 'Ni', 'Cu', 'Zn'],
+                datasets: [{
+                    label: 'จุดหลอมเหลว (°C)',
+                    data: [1541, 1668, 1910, 1907, 1246, 1538, 1495, 1455, 1085, 420],
+                    backgroundColor: '#85b0c8',
+                    borderColor: '#004c6d',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { display: false }, tooltip: { callbacks: { title: tooltipTitleCallback } },
+                title: { display: true, text: 'จุดหลอมเหลวของธาตุแทรนซิชันแถวแรก', color: '#58508d', font: {size: 14}}
+                },
+                scales: { y: { title: { display: true, text: 'อุณหภูมิ (°C)' } } }
+            }
+        });
+    </script>
+</body>
+</html>
+```

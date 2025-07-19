@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>อินโฟกราฟิก: แนวโน้มของสมบัติทางเคมีในตารางธาตุ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: #f7f3ff;
+            color: #1a202c;
+        }
+        .card {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            padding: 1.5rem;
+            border: 1px solid #e2e8f0;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        .periodic-table-grid {
+            display: grid;
+            grid-template-columns: repeat(18, 1fr);
+            gap: 2px;
+            width: 100%;
+            max-width: 600px;
+            margin: auto;
+            border: 2px solid #58508d;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .grid-cell {
+            background-color: #e0e7ff;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: bold;
+            color: #58508d;
+        }
+        .grid-cell.highlight {
+            background-color: #bc5090;
+            color: white;
+        }
+        .trend-arrow-container {
+            position: absolute;
+            font-weight: bold;
+            color: #ff6361;
+            font-size: 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .trend-label {
+            font-size: 0.875rem;
+            margin-right: 0.5rem;
+            color: #58508d;
+        }
+        .atom-size-diagram {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            height: 100px;
+            gap: 10px;
+        }
+        .atom {
+            background-color: #ffa600;
+            border-radius: 50%;
+            border: 2px solid #58508d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="bg-[#f7f3ff]">
+
+    <main class="container mx-auto p-4 md:p-8">
+
+        <header class="text-center mb-16">
+            <h1 class="text-4xl md:text-5xl font-bold text-[#58508d]">แนวโน้มของสมบัติทางเคมีในตารางธาตุ</h1>
+            <p class="text-lg text-gray-600 mt-2 max-w-3xl mx-auto">การเปลี่ยนแปลงที่เป็นระบบของสมบัติธาตุที่ช่วยให้นักวิทยาศาสตร์ทำนายพฤติกรรมของสสารได้</p>
+        </header>
+
+        <section id="overview" class="card mb-16">
+            <h2 class="text-3xl font-bold text-center text-[#58508d] mb-6">ภาพรวมแนวโน้มหลัก</h2>
+            <p class="text-center text-gray-600 max-w-3xl mx-auto mb-8">สมบัติทางเคมีและกายภาพของธาตุไม่ได้เปลี่ยนแปลงไปอย่างสุ่มสี่สุ่มห้า แต่เป็นไปตามรูปแบบที่คาดการณ์ได้เมื่อเคลื่อนที่ไปบนตารางธาตุ</p>
+            
+            <div class="relative w-full max-w-lg mx-auto p-4 bg-gray-50 rounded-lg" style="height: 280px;">
+                <div class="periodic-table-grid">
+                    <div class="grid-cell highlight" style="grid-row: 1 / span 7; grid-column: 1;"></div>
+                    <div class="grid-cell highlight" style="grid-row: 1 / span 7; grid-column: 18;"></div>
+                    <div class="grid-cell" style="grid-row: 1; grid-column: 2 / span 16;"></div>
+                    <div class="grid-cell" style="grid-row: 2; grid-column: 2 / span 16;"></div>
+                    <div class="grid-cell" style="grid-row: 3; grid-column: 2 / span 16;"></div>
+                    <div class="grid-cell" style="grid-row: 4; grid-column: 2 / span 16;"></div>
+                    <div class="grid-cell" style="grid-row: 5; grid-column: 2 / span 16;"></div>
+                    <div class="grid-cell" style="grid-row: 6; grid-column: 2 / span 16;"></div>
+                    <div class="grid-cell" style="grid-row: 7; grid-column: 2 / span 16;"></div>
+                </div>
+
+                <div class="trend-arrow-container" style="top: 10%; left: 50%; transform: translateX(-50%);">
+                    <span class="trend-label">IE, EN เพิ่มขึ้น</span>
+                    <span class="text-4xl">➡️</span>
+                </div>
+                <div class="trend-arrow-container" style="top: 25%; left: 50%; transform: translateX(-50%);">
+                    <span class="trend-label">ขนาดอะตอมลดลง</span>
+                    <span class="text-4xl">⬅️</span>
+                </div>
+
+                <div class="trend-arrow-container" style="top: 50%; left: 10%; transform: translateY(-50%) rotate(90deg);">
+                    <span class="trend-label">IE, EN ลดลง</span>
+                    <span class="text-4xl">➡️</span>
+                </div>
+                <div class="trend-arrow-container" style="top: 50%; right: 10%; transform: translateY(-50%) rotate(90deg);">
+                    <span class="trend-label">ขนาดอะตอมเพิ่มขึ้น</span>
+                    <span class="text-4xl">⬅️</span>
+                </div>
+            </div>
+            <p class="text-center mt-4 text-gray-600">IE = พลังงานไอออไนเซชัน, EN = สภาพอิเล็กโตรเนกาติวิตี</p>
+        </section>
+
+        <section id="atomic-radius" class="card mb-16">
+            <h2 class="text-3xl font-bold text-center text-[#58508d] mb-6">1. ขนาดอะตอม (Atomic Radius)</h2>
+            <p class="text-center text-gray-600 max-w-3xl mx-auto mb-8">ระยะห่างจากนิวเคลียสถึงอิเล็กตรอนวงนอกสุด</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div>
+                    <h3 class="text-xl font-semibold text-center text-[#bc5090] mb-4">ตามคาบ (ซ้ายไปขวา)</h3>
+                    <div class="atom-size-diagram">
+                        <div class="atom" style="width: 60px; height: 60px; font-size: 1.5rem;">Na</div>
+                        <div class="atom" style="width: 45px; height: 45px; font-size: 1.25rem;">Cl</div>
+                        <div class="atom" style="width: 30px; height: 30px; font-size: 1rem;">Ar</div>
+                    </div>
+                    <p class="text-center mt-2 text-gray-500">ขนาดอะตอม **ลดลง** (แรงดึงดูดจากนิวเคลียสเพิ่มขึ้น)</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold text-center text-[#bc5090] mb-4">ตามหมู่ (บนลงล่าง)</h3>
+                    <div class="atom-size-diagram flex-col">
+                        <div class="atom" style="width: 30px; height: 30px; font-size: 1rem;">F</div>
+                        <div class="atom" style="width: 45px; height: 45px; font-size: 1.25rem;">Cl</div>
+                        <div class="atom" style="width: 60px; height: 60px; font-size: 1.5rem;">Br</div>
+                    </div>
+                    <p class="text-center mt-2 text-gray-500">ขนาดอะตอม **เพิ่มขึ้น** (จำนวนระดับพลังงานเพิ่มขึ้น)</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="ionization-energy" class="card mb-16">
+            <h2 class="text-3xl font-bold text-center text-[#58508d] mb-6">2. พลังงานไอออไนเซชัน (Ionization Energy, IE)</h2>
+            <p class="text-center text-gray-600 max-w-3xl mx-auto mb-8">พลังงานที่น้อยที่สุดที่ใช้ในการดึงอิเล็กตรอน 1 ตัวออกจากอะตอมในสถานะแก๊ส</p>
+            <div class="chart-container">
+                <canvas id="ionizationEnergyChart"></canvas>
+            </div>
+            <p class="text-center mt-4 text-gray-600">*กราฟแสดงแนวโน้มพลังงานไอออไนเซชันของธาตุในคาบที่ 3 จะเห็นว่ามีแนวโน้มเพิ่มขึ้นจากซ้ายไปขวา</p>
+        </section>
+
+        <section id="electron-affinity" class="card mb-16">
+            <h2 class="text-3xl font-bold text-center text-[#58508d] mb-6">3. สัมพรรคภาพอิเล็กตรอน (Electron Affinity, EA)</h2>
+            <p class="text-center text-gray-600 max-w-3xl mx-auto mb-8">การเปลี่ยนแปลงพลังงานเมื่ออะตอมในสถานะแก๊สรับอิเล็กตรอน 1 ตัว (ยิ่งคายพลังงานมาก ยิ่งรับง่าย)</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div>
+                    <h3 class="text-xl font-semibold text-center text-[#bc5090] mb-4">ตามคาบ (ซ้ายไปขวา)</h3>
+                    <div class="flex items-center justify-center gap-4 h-24">
+                        <div class="flex flex-col items-center">
+                            <div class="relative w-16 h-16 rounded-full flex items-center justify-center text-xl font-bold text-[#004c6d]" style="background-color: #aed5e8;">Na</div>
+                            <span class="text-gray-500 text-sm mt-1">อ่อน</span>
+                        </div>
+                        <div class="text-4xl text-[#ff6361]">→</div>
+                        <div class="flex flex-col items-center">
+                            <div class="relative w-16 h-16 rounded-full flex items-center justify-center text-xl font-bold text-[#004c6d]" style="background-color: #85b0c8;">Cl</div>
+                            <span class="text-gray-500 text-sm mt-1">ปานกลาง</span>
+                        </div>
+                        <div class="text-4xl text-[#ff6361]">→</div>
+                        <div class="flex flex-col items-center">
+                            <div class="relative w-16 h-16 rounded-full flex items-center justify-center text-xl font-bold text-[#004c6d]" style="background-color: #5c8ca8;">F</div>
+                            <span class="text-gray-500 text-sm mt-1">แรง</span>
+                        </div>
+                    </div>
+                    <p class="text-center mt-2 text-gray-500">EA โดยทั่วไป **เพิ่มขึ้น** (รับอิเล็กตรอนง่ายขึ้น)</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold text-center text-[#bc5090] mb-4">ตามหมู่ (บนลงล่าง)</h3>
+                    <div class="flex flex-col items-center justify-center gap-4 h-24">
+                        <div class="flex items-center">
+                            <div class="relative w-16 h-16 rounded-full flex items-center justify-center text-xl font-bold text-[#004c6d]" style="background-color: #5c8ca8;">F</div>
+                            <span class="text-gray-500 text-sm ml-2">แรง</span>
+                        </div>
+                        <div class="text-4xl text-[#ff6361]">↓</div>
+                        <div class="flex items-center">
+                            <div class="relative w-16 h-16 rounded-full flex items-center justify-center text-xl font-bold text-[#004c6d]" style="background-color: #85b0c8;">Cl</div>
+                            <span class="text-gray-500 text-sm ml-2">ปานกลาง</span>
+                        </div>
+                        <div class="text-4xl text-[#ff6361]">↓</div>
+                        <div class="flex items-center">
+                            <div class="relative w-16 h-16 rounded-full flex items-center justify-center text-xl font-bold text-[#004c6d]" style="background-color: #aed5e8;">Br</div>
+                            <span class="text-gray-500 text-sm ml-2">อ่อน</span>
+                        </div>
+                    </div>
+                    <p class="text-center mt-2 text-gray-500">EA โดยทั่วไป **ลดลง** (รับอิเล็กตรอนยากขึ้น)</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="electronegativity" class="card mb-16">
+            <h2 class="text-3xl font-bold text-center text-[#58508d] mb-6">4. สภาพอิเล็กโตรเนกาติวิตี (Electronegativity, EN)</h2>
+            <p class="text-center text-gray-600 max-w-3xl mx-auto mb-8">ความสามารถของอะตอมในการดึงดูดอิเล็กตรอนคู่ร่วมพันธะในโมเลกุล</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div>
+                    <h3 class="text-xl font-semibold text-center text-[#bc5090] mb-4">ตามคาบ (ซ้ายไปขวา)</h3>
+                    <div class="flex items-center justify-center gap-4 h-24">
+                        <div class="relative w-16 h-16 bg-[#aed5e8] rounded-full flex items-center justify-center text-xl font-bold text-[#004c6d]">Na</div>
+                        <div class="relative w-16 h-16 bg-[#85b0c8] rounded-full flex items-center justify-center text-xl font-bold text-[#004c6d]">Cl</div>
+                        <div class="relative w-16 h-16 bg-[#5c8ca8] rounded-full flex items-center justify-center text-xl font-bold text-[#004c6d]">F</div>
+                    </div>
+                    <p class="text-center mt-2 text-gray-500">EN **เพิ่มขึ้น** (ดึงดูดอิเล็กตรอนได้ดีขึ้น)</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold text-center text-[#bc5090] mb-4">ตามหมู่ (บนลงล่าง)</h3>
+                    <div class="flex flex-col items-center justify-center gap-4 h-24">
+                        <div class="relative w-16 h-16 bg-[#5c8ca8] rounded-full flex items-center justify-center text-xl font-bold text-[#004c6d]">F</div>
+                        <div class="relative w-16 h-16 bg-[#85b0c8] rounded-full flex items-center justify-center text-xl font-bold text-[#004c6d]">Cl</div>
+                        <div class="relative w-16 h-16 bg-[#aed5e8] rounded-full flex items-center justify-center text-xl font-bold text-[#004c6d]">Br</div>
+                    </div>
+                    <p class="text-center mt-2 text-gray-500">EN **ลดลง** (ดึงดูดอิเล็กตรอนได้น้อยลง)</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="why-it-matters" class="card">
+            <h2 class="text-3xl font-bold text-center text-[#58508d] mb-6">ทำไมแนวโน้มเหล่านี้จึงสำคัญ?</h2>
+            <p class="text-center text-gray-600 max-w-3xl mx-auto">การเข้าใจแนวโน้มของสมบัติธาตุช่วยให้นักวิทยาศาสตร์สามารถ:</p>
+            <ul class="list-disc list-inside text-gray-700 mt-4 max-w-2xl mx-auto space-y-2">
+                <li><strong class="text-[#ffa600]">ทำนายพฤติกรรมทางเคมี:</strong> ของธาตุที่ยังไม่เคยศึกษา</li>
+                <li><strong class="text-[#ffa600]">ออกแบบวัสดุใหม่:</strong> ที่มีสมบัติตามต้องการ เช่น สารกึ่งตัวนำ</li>
+                <li><strong class="text-[#ffa600]">เข้าใจการเกิดพันธะ:</strong> และโครงสร้างของสารประกอบต่างๆ</li>
+            </ul>
+        </section>
+
+    </main>
+
+    <footer class="text-center p-4 mt-8 text-sm text-gray-500">
+        <p>จัดทำขึ้นเพื่อการศึกษาเกี่ยวกับแนวโน้มของสมบัติทางเคมีในตารางธาตุ</p>
+    </footer>
+
+    <script>
+        const wrapLabel = (label, maxLength = 16) => {
+            if (typeof label !== 'string' || label.length <= maxLength) return label;
+            const words = label.split(' ');
+            const lines = [];
+            let currentLine = '';
+            for (const word of words) {
+                if ((currentLine + ' ' + word).trim().length > maxLength) {
+                    lines.push(currentLine.trim());
+                    currentLine = word;
+                } else {
+                    currentLine = (currentLine + ' ' + word).trim();
+                }
+            }
+            if (currentLine) lines.push(currentLine.trim());
+            return lines;
+        };
+
+        const tooltipTitleCallback = (tooltipItems) => {
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            if (Array.isArray(label)) {
+                return label.join(' ');
+            } else {
+                return label;
+            }
+        };
+
+        const ctx = document.getElementById('ionizationEnergyChart').getContext('2d');
+        const labels = ['Na', 'Mg', 'Al', 'Si', 'P', 'S', 'Cl', 'Ar'];
+        const data = [496, 738, 578, 787, 1012, 1000, 1251, 1521];
+
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'พลังงานไอออไนเซชันลำดับที่ 1 (kJ/mol)',
+                    data: data,
+                    borderColor: '#ff6361',
+                    backgroundColor: 'rgba(255, 99, 97, 0.1)',
+                    borderWidth: 3,
+                    pointBackgroundColor: '#ffffff',
+                    pointBorderColor: '#ff6361',
+                    pointBorderWidth: 2,
+                    pointRadius: 5,
+                    fill: true,
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        title: {
+                            display: true,
+                            text: 'พลังงาน (kJ/mol)'
+                        },
+                        grid: {
+                            color: '#e2e8f0'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'ธาตุในคาบที่ 3'
+                        },
+                        grid: {
+                            color: '#e2e8f0'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    title: {
+                        display: true,
+                        text: 'พลังงานไอออไนเซชันของธาตุในคาบที่ 3',
+                        font: { size: 16 },
+                        color: '#58508d'
+                    },
+                    tooltip: {
+                        callbacks: {
+                            title: tooltipTitleCallback
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

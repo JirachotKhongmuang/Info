@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>อินโฟกราฟิก: การทดลองแผ่นทองคำของรัทเทอร์ฟอร์ด</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: #fdf8f5;
+        }
+        .card {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            padding: 1.5rem 2rem;
+            overflow: hidden;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        .alpha-particle {
+            width: 8px;
+            height: 8px;
+            background-color: #ffa600;
+            border-radius: 50%;
+            position: absolute;
+            left: 0;
+        }
+        @keyframes straight-pass {
+            0% { transform: translateX(-50px); opacity: 1; }
+            45% { transform: translateX(450px); opacity: 1; }
+            46% { opacity: 0; transform: translateX(-50px); }
+            100% { opacity: 0; transform: translateX(-50px); }
+        }
+        .alpha-particle-straight {
+            animation: straight-pass 3s linear infinite;
+        }
+
+        @keyframes scatter-path {
+            0% { transform: translateX(-50px) translateY(0px); opacity: 1; }
+            30% { transform: translateX(100px) translateY(0px); opacity: 1; }
+            50% { transform: translateX(250px) translateY(-50px); opacity: 1; }
+            80% { transform: translateX(450px) translateY(-70px); opacity: 0; }
+            81% { transform: translateX(-50px) translateY(0px); opacity: 0; }
+            100% { transform: translateX(-50px) translateY(0px); opacity: 0; }
+        }
+        .alpha-particle-scatter {
+            animation: scatter-path 4s linear infinite;
+        }
+
+        @keyframes reflect-path {
+            0% { transform: translateX(-50px) translateY(0px); opacity: 1; }
+            40% { transform: translateX(180px) translateY(0px); opacity: 1; }
+            50% { transform: translateX(200px) translateY(0px); opacity: 1; }
+            60% { transform: translateX(150px) translateY(0px); opacity: 1; }
+            90% { transform: translateX(-450px) translateY(0px); opacity: 1; }
+            91% { transform: translateX(-50px) translateY(0px); opacity: 0; }
+            100% { transform: translateX(-50px) translateY(0px); opacity: 0; }
+        }
+        .alpha-particle-reflect {
+            animation: reflect-path 4s linear infinite;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <div class="container mx-auto p-4 md:p-8">
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-[#58508d]">การทดลองที่สั่นสะเทือนวงการฟิสิกส์</h1>
+            <p class="text-lg text-gray-600 mt-2">การทดลองยิงอนุภาคแอลฟาผ่านแผ่นทองคำของรัทเทอร์ฟอร์ดที่เปิดเผยความลับใจกลางอะตอม</p>
+        </header>
+
+        <section class="mb-12 card">
+            <h2 class="text-3xl font-bold text-center text-[#58508d] mb-6">สิ่งที่คาดหวัง vs สิ่งที่เกิดขึ้นจริง</h2>
+            <p class="text-center text-gray-600 max-w-3xl mx-auto mb-8">รัทเทอร์ฟอร์ดตั้งใจจะพิสูจน์แบบจำลองอะตอม "พุดดิ้งลูกเกด" ของทอมสัน เขาคาดว่าอนุภาคแอลฟาจะวิ่งทะลุผ่านอะตอมไปตรงๆ เหมือนกระสุนวิ่งผ่านหมอก แต่ผลลัพธ์ที่ได้กลับน่าประหลาดใจอย่างยิ่ง</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div>
+                    <h3 class="text-2xl font-semibold text-center text-[#bc5090] mb-4">สิ่งที่คาดหวัง (ตามแบบจำลองทอมสัน)</h3>
+                    <div class="relative h-40 bg-gray-100 rounded-lg p-4 flex items-center justify-center overflow-hidden">
+                        <div class="text-6xl text-gray-300">⚛️</div>
+                        <div class="alpha-particle alpha-particle-straight" style="top: 50%;"></div>
+                        <div class="absolute top-1/2 left-full -translate-y-1/2 w-16 h-1 border-t-4 border-dashed border-[#ffa600]"></div>
+                    </div>
+                    <p class="text-center mt-2 text-sm text-gray-500">อนุภาคแอลฟาควรทะลุผ่านไปตรงๆ</p>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-semibold text-center text-[#ff6361] mb-4">สิ่งที่เกิดขึ้นจริง</h3>
+                    <div class="relative h-40 bg-gray-100 rounded-lg p-4 flex items-center justify-center overflow-hidden">
+                         <div class="w-12 h-12 bg-[#58508d] rounded-full shadow-lg flex items-center justify-center text-white font-bold text-xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">+</div>
+                         <div class="alpha-particle alpha-particle-scatter" style="top: 25%;"></div>
+                         <div class="alpha-particle alpha-particle-reflect" style="top: 75%;"></div>
+                         <div class="absolute top-1/4 left-full -translate-y-1/2 w-16 h-1 border-t-4 border-dashed border-[#ffa600]"></div>
+                    </div>
+                    <p class="text-center mt-2 text-sm text-gray-500">อนุภาคส่วนน้อยเบนและสะท้อนกลับ!</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-12 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+            <div class="card h-full flex flex-col justify-center">
+                <h2 class="text-3xl font-bold text-[#58508d]">ผลการทดลองเชิงปริมาณ</h2>
+                <p class="text-gray-600 mt-2 mb-4">ผลลัพธ์ที่น่าประหลาดใจสามารถสรุปเป็นตัวเลขได้ดังนี้ ซึ่งการที่อนุภาคส่วนน้อยเบี่ยงเบนและสะท้อนกลับเป็นกุญแจสำคัญสู่การค้นพบครั้งยิ่งใหญ่</p>
+                <div class="flex items-center gap-4">
+                    <div class="chart-container w-1/2">
+                        <canvas id="rutherfordChart"></canvas>
+                    </div>
+                    <div class="w-1/2 space-y-4">
+                        <div class="p-4 bg-green-50 rounded-lg">
+                            <p class="text-3xl font-bold text-green-600">>99%</p>
+                            <p class="font-semibold">ทะลุผ่านไปตรงๆ</p>
+                        </div>
+                        <div class="p-4 bg-yellow-50 rounded-lg">
+                            <p class="text-2xl font-bold text-yellow-600">~1 ใน 8,000</p>
+                            <p class="font-semibold">เบี่ยงเบนมุมกว้าง</p>
+                        </div>
+                        <div class="p-4 bg-red-50 rounded-lg">
+                            <p class="text-xl font-bold text-red-600">~1 ใน 20,000</p>
+                            <p class="font-semibold">สะท้อนกลับ</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+             <div class="card h-full flex flex-col justify-center">
+                <h2 class="text-3xl font-bold text-[#58508d]">ข้อสรุปที่เปลี่ยนแปลงโลก</h2>
+                <p class="text-gray-600 mt-2 mb-4">จากผลการทดลอง รัทเทอร์ฟอร์ดได้ข้อสรุปที่ล้มล้างความเชื่อเดิมๆ เกี่ยวกับอะตอม</p>
+                <ul class="space-y-3 list-disc list-inside">
+                    <li><strong class="text-[#bc5090]">อะตอมส่วนใหญ่เป็นที่ว่าง:</strong> เพราะอนุภาคส่วนใหญ่ทะลุผ่านไปได้</li>
+                    <li><strong class="text-[#bc5090]">มีนิวเคลียสอยู่ตรงกลาง:</strong> การสะท้อนกลับเกิดจากการชนใจกลางที่หนาแน่น มีมวลมาก และมีประจุบวก</li>
+                    <li><strong class="text-[#bc5090]">อิเล็กตรอนโคจรรอบนอก:</strong> อิเล็กตรอนประจุลบโคจรอยู่ในบริเวณที่ว่างรอบนิวเคลียส</li>
+                </ul>
+            </div>
+        </section>
+        
+        <section class="card">
+            <h2 class="text-3xl font-bold text-center text-[#58508d] mb-6">กำเนิดแบบจำลองอะตอมใหม่</h2>
+            <p class="text-center text-gray-600 max-w-3xl mx-auto mb-8">การทดลองนี้ทำให้แบบจำลองอะตอมของทอมสันต้องถูกทบทวน และนำไปสู่แบบจำลองนิวเคลียร์ของรัทเทอร์ฟอร์ด ซึ่งเป็นรากฐานของความเข้าใจอะตอมในปัจจุบัน</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div class="border p-4 rounded-lg">
+                    <h3 class="text-2xl font-semibold text-center text-gray-500 mb-4">ก่อน: แบบจำลองของทอมสัน</h3>
+                    <div class="relative h-40 bg-red-50 rounded-full flex items-center justify-center p-4">
+                        <span class="text-red-300 text-6xl font-thin">+</span>
+                        <span class="absolute top-1/4 left-1/4 w-3 h-3 bg-red-500 rounded-full">-</span>
+                        <span class="absolute top-1/2 right-1/4 w-3 h-3 bg-red-500 rounded-full">-</span>
+                        <span class="absolute bottom-1/4 left-1/2 w-3 h-3 bg-red-500 rounded-full">-</span>
+                    </div>
+                    <p class="text-center mt-2 font-semibold">"พุดดิ้งลูกเกด"</p>
+                </div>
+                <div class="border p-4 rounded-lg border-[#58508d]">
+                     <h3 class="text-2xl font-semibold text-center text-[#58508d] mb-4">หลัง: แบบจำลองของรัทเทอร์ฟอร์ด</h3>
+                    <div class="relative h-40 flex items-center justify-center">
+                        <div class="w-6 h-6 bg-[#58508d] rounded-full flex items-center justify-center text-white font-bold text-xl">+</div>
+                        <div class="absolute w-full h-full border-2 border-dashed border-gray-300 rounded-full"></div>
+                        <div class="absolute w-2/3 h-2/3 border-2 border-dashed border-gray-300 rounded-full"></div>
+                        <div class="absolute top-[15%] left-[50%] w-3 h-3 bg-[#bc5090] rounded-full">-</div>
+                         <div class="absolute bottom-[25%] right-[15%] w-3 h-3 bg-[#bc5090] rounded-full">-</div>
+                    </div>
+                     <p class="text-center mt-2 font-semibold">"แบบจำลองนิวเคลียร์"</p>
+                </div>
+            </div>
+        </section>
+
+    </div>
+    <footer class="text-center p-4 mt-8 text-sm text-gray-500">
+        <p>จัดทำเพื่อการศึกษา โดยอ้างอิงข้อมูลจากการทดลองแผ่นทองคำของรัทเทอร์ฟอร์ด</p>
+    </footer>
+
+    <script>
+        const wrapLabel = (label, maxLength = 16) => {
+            if (label.length <= maxLength) return label;
+            const words = label.split(' ');
+            const lines = [];
+            let currentLine = '';
+            for (const word of words) {
+                if ((currentLine + ' ' + word).trim().length > maxLength) {
+                    lines.push(currentLine.trim());
+                    currentLine = word;
+                } else {
+                    currentLine = (currentLine + ' ' + word).trim();
+                }
+            }
+            if (currentLine) lines.push(currentLine.trim());
+            return lines;
+        };
+
+        const tooltipTitleCallback = (tooltipItems) => {
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            if (Array.isArray(label)) {
+                return label.join(' ');
+            } else {
+                return label;
+            }
+        };
+
+        const ctx = document.getElementById('rutherfordChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['ทะลุผ่าน', 'เบี่ยงเบน/สะท้อนกลับ'],
+                datasets: [{
+                    data: [99.99, 0.01],
+                    backgroundColor: [
+                        '#86efac', 
+                        '#fca5a5'
+                    ],
+                    borderColor: '#ffffff',
+                    borderWidth: 4,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '70%',
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        enabled: false
+                    }
+                }
+            }
+        });
+
+    </script>
+     <style>
+        @keyframes bounce {
+            0% { transform: translateX(0); opacity: 1;}
+            50% { transform: translateX(120px) translateY(-40px) rotate(45deg); opacity: 1;}
+            100% { transform: translateX(-20px) translateY(-80px) rotate(90deg); opacity: 0;}
+        }
+    </style>
+</body>
+</html>
