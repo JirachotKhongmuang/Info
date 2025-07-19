@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>คอลเลกชันอินโฟกราฟิกวิทยาศาสตร์</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: #f0f4f8; /* Light blue-gray background */
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 2.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 800px;
+            width: 100%;
+            margin-top: 2rem;
+        }
+        .infographic-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        .infographic-item {
+            background-color: #e0f2fe; /* Lighter blue for items */
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            text-align: left;
+            border: 1px solid #a7d9f8;
+        }
+        .infographic-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .infographic-item a {
+            font-weight: 600;
+            color: #1e40af; /* Darker blue for links */
+            text-decoration: none;
+            font-size: 1.125rem;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        .infographic-item a:hover {
+            text-decoration: underline;
+        }
+        .infographic-item p {
+            font-size: 0.9rem;
+            color: #4b5563;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-3xl md:text-4xl font-bold mb-4 text-[#1e40af]">คอลเลกชันอินโฟกราฟิกวิทยาศาสตร์</h1>
+        <p class="text-lg text-gray-700 mb-8">สำรวจหัวข้อทางวิทยาศาสตร์ที่น่าสนใจผ่านอินโฟกราฟิกที่เข้าใจง่ายของเรา</p>
+
+        <div class="infographic-list">
+            <!-- ตัวอย่างลิงก์: ปรับเปลี่ยนตามชื่อไฟล์อินโฟกราฟิกของคุณ -->
+            <div class="infographic-item">
+                <a href="atomic_models.html">วิวัฒนาการของแบบจำลองอะตอม</a>
+                <p>ทำความเข้าใจแนวคิดที่เปลี่ยนแปลงความเข้าใจของเราเกี่ยวกับสสาร</p>
+            </div>
+            <div class="infographic-item">
+                <a href="atomic_particles_isotopes.html">อนุภาคในอะตอมและไอโซโทป</a>
+                <p>เจาะลึกโครงสร้างพื้นฐานของอะตอมและความหลากหลาย</p>
+            </div>
+            <div class="infographic-item">
+                <a href="electron_configuration.html">การจัดเรียงอิเล็กตรอนในอะตอม</a>
+                <p>กุญแจสำคัญที่ไขความลับสมบัติทางเคมีของธาตุทุกชนิด</p>
+            </div>
+            <div class="infographic-item">
+                <a href="periodic_table_main_group_properties.html">ตารางธาตุและสมบัติของธาตุหมู่หลัก</a>
+                <p>แผนที่แห่งธาตุที่บอกเล่าเรื่องราวของสมบัติทางเคมี</p>
+            </div>
+            <div class="infographic-item">
+                <a href="periodic_trends_infographic.html">แนวโน้มของสมบัติทางเคมีในตารางธาตุ</a>
+                <p>การเปลี่ยนแปลงที่เป็นระบบของสมบัติธาตุที่ช่วยทำนายพฤติกรรม</p>
+            </div>
+            <div class="infographic-item">
+                <a href="spectrum.html">สเปกตรัม: แสง สี และความลับของสสาร</a>
+                <p>การแยกองค์ประกอบของคลื่นแม่เหล็กไฟฟ้าเพื่อไขความลับของสสาร</p>
+            </div>
+            <div class="infographic-item">
+                <a href="transition_elements_infographic.html">ธาตุแทรนซิชัน: มหาอำนาจแห่งตารางธาตุ</a>
+                <p>โลหะหลากสีสันและคุณสมบัติพิเศษที่สำคัญในอุตสาหกรรมและชีววิทยา</p>
+            </div>
+            <!-- เพิ่มลิงก์อื่นๆ ที่นี่ -->
+        </div>
+    </div>
+
+    <footer class="text-center text-sm text-gray-500 mt-8">
+        <p>สร้างสรรค์โดย [ชื่อของคุณ/ทีมของคุณ]</p>
+    </footer>
+</body>
+</html>
